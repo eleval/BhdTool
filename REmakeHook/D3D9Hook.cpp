@@ -117,8 +117,6 @@ void APIENTRY hk_EndScene(LPDIRECT3DDEVICE9 device)
 
 	if (ImGui_Impl::IsInitialized())
 	{
-		ImGui_Impl::NewFrame();
-		ImGui::ShowDemoWindow();
 		ImGui_Impl::EndFrame();
 		ImGui::Render();
 		ImGui_Impl::Render();
@@ -147,6 +145,12 @@ void __fastcall hk_bhd_0x00768480(int param)
 	if (g_gpd.d3dDevice != nullptr && !ImGui_Impl::IsInitialized())
 	{
 		ImGui_Impl::Init();
+	}
+
+	if (ImGui_Impl::IsInitialized())
+	{
+		ImGui_Impl::NewFrame();
+		ImGui::ShowDemoWindow();
 	}
 
 	void* funcPtr = (void*)0x00768480;
