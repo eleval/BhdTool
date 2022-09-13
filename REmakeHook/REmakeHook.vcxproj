@@ -97,6 +97,7 @@
       <SubSystem>Windows</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <EnableUAC>false</EnableUAC>
+      <AdditionalDependencies>d3d9.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
     <PostBuildEvent>
       <Command>copy $(TargetPath) "E:\Jeux\Steam\steamapps\common\Resident Evil Biohazard HD REMASTER"</Command>
@@ -119,6 +120,7 @@
       <OptimizeReferences>true</OptimizeReferences>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <EnableUAC>false</EnableUAC>
+      <AdditionalDependencies>d3d9.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
@@ -157,14 +159,18 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="CodePatch.h" />
+    <ClInclude Include="D3D9Hook.h" />
     <ClInclude Include="DoorSkip.h" />
     <ClInclude Include="framework.h" />
+    <ClInclude Include="FunctionHook.h" />
     <ClInclude Include="pch.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="CodePatch.cpp" />
+    <ClCompile Include="D3D9Hook.cpp" />
     <ClCompile Include="dllmain.cpp" />
     <ClCompile Include="DoorSkip.cpp" />
+    <ClCompile Include="FunctionHook.cpp" />
     <ClCompile Include="pch.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Create</PrecompiledHeader>

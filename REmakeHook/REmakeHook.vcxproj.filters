@@ -27,6 +27,12 @@
     <ClInclude Include="DoorSkip.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="D3D9Hook.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="FunctionHook.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="dllmain.cpp">
@@ -39,6 +45,12 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="DoorSkip.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="D3D9Hook.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="FunctionHook.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

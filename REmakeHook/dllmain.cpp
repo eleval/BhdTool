@@ -2,6 +2,7 @@
 #include "pch.h"
 
 #include "CodePatch.h"
+#include "D3D9Hook.h"
 #include "DoorSkip.h"
 
 #include <unknwn.h>
@@ -45,6 +46,8 @@ void Init()
 	{
 		OriginalFunction = (DirectInput8Create_t)GetProcAddress(DInput8DLL, "DirectInput8Create");
 	}
+
+	D3D9Hook::Init();
 
 	DoorSkip::Init();
 	DoorSkip::Enable();

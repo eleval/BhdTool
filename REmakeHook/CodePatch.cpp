@@ -48,7 +48,7 @@ void CodePatch::AddCode(size_t address, std::vector<uint8_t> code)
 	Code codePatch;
 	codePatch.address = address;
 	codePatch.newCode = std::move(code);
-	codePatch.oldCode = GetCode(address, code.size());
+	codePatch.oldCode = GetCode(address, codePatch.newCode.size());
 	codes_.push_back(codePatch);
 }
 
@@ -61,7 +61,7 @@ void CodePatch::AddNops(size_t address, size_t count)
 	codes_.push_back(codePatch);
 }
 
-void CodePatch::ApplyPatch()
+void CodePatch::Apply()
 {
 	for (const Code& code : codes_)
 	{
@@ -69,7 +69,7 @@ void CodePatch::ApplyPatch()
 	}
 }
 
-void CodePatch::RemovePatch()
+void CodePatch::Remove()
 {
 	for (const Code& code : codes_)
 	{

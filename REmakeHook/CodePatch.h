@@ -23,8 +23,8 @@ public:
 	void AddCode(size_t address, std::vector<uint8_t> code);
 	void AddNops(size_t address, size_t count);
 
-	void ApplyPatch();
-	void RemovePatch();
+	void Apply();
+	void Remove();
 
 private:
 	std::vector<Code> codes_;

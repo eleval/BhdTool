@@ -19,10 +19,10 @@ void DoorSkip::Init()
 
 void DoorSkip::Enable()
 {
-	doorSkipPatch_.ApplyPatch();
+	doorSkipPatch_.Apply();
 }
 
 void DoorSkip::Disable()
 {
-	doorSkipPatch_.RemovePatch();
+	doorSkipPatch_.Remove();
 }
