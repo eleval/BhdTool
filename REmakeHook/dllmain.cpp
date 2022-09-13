@@ -2,6 +2,7 @@
 #include "pch.h"
 
 #include "CodePatch.h"
+#include "DoorSkip.h"
 
 #include <unknwn.h>
 
@@ -33,8 +34,6 @@ extern "C"
 	);
 }
 
-
-
 void Init()
 {
 	// Load the original dinput8.dll from the system directory
@@ -47,10 +46,8 @@ void Init()
 		OriginalFunction = (DirectInput8Create_t)GetProcAddress(DInput8DLL, "DirectInput8Create");
 	}
 
-	PatchCode(0x0041CDD6, { 0xEB, 0x0C, 0x90 }); // Removes the entire door animation
-	PatchCodeWithNops(0x0042B0BF, 6); // Remove door being present for 5 frames
-	PatchCodeWithNops(0x0042AEC5, 6); // Remove beginning of animation
-	PatchCodeWithNops(0x0041CDE6, 5); // Remove sounds
+	DoorSkip::Init();
+	DoorSkip::Enable();
 }
 
 BOOL APIENTRY DllMain( HMODULE hModule,
