@@ -3,6 +3,7 @@
 #include "D3D9Hook.h"
 
 #include "CodePatch.h"
+#include "DoorSkip.h"
 #include "FunctionHook.h"
 #include "GameData.h"
 #include "ImGui_Impl.h"
@@ -101,6 +102,29 @@ void APIENTRY hk_BeginScene(LPDIRECT3DDEVICE9 device)
 {
 	BeginSceneFunc d3dBeginScene = (BeginSceneFunc)beginSceneHook_.GetGateway();
 
+	if (ImGui_Impl::IsInitialized())
+	{
+		ImGui_Impl::NewFrame();
+		//ImGui::ShowDemoWindow();
+
+		if (ImGui::Begin("DoorSkip"))
+		{
+			static bool v = false;
+			if (ImGui::Checkbox("Enable Door Skip", &v))
+			{
+				if (v)
+				{
+					DoorSkip::Enable();
+				}
+				else
+				{
+					DoorSkip::Disable();
+				}
+			}
+		}
+		ImGui::End();
+	}
+
 	d3dBeginScene(device);
 }
 
@@ -145,12 +169,6 @@ void __fastcall hk_bhd_0x00768480(int param)
 	if (g_gpd.d3dDevice != nullptr && !ImGui_Impl::IsInitialized())
 	{
 		ImGui_Impl::Init();
-	}
-
-	if (ImGui_Impl::IsInitialized())
-	{
-		ImGui_Impl::NewFrame();
-		ImGui::ShowDemoWindow();
 	}
 
 	void* funcPtr = (void*)0x00768480;

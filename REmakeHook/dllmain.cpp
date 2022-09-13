@@ -50,7 +50,7 @@ void Init()
 	D3D9Hook::Init();
 
 	DoorSkip::Init();
-	DoorSkip::Enable();
+	//DoorSkip::Enable();
 }
 
 BOOL APIENTRY DllMain( HMODULE hModule,
