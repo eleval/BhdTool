@@ -171,6 +171,11 @@ void UpdateMouseData()
 			if (::GetCursorPos(&pos) && ::ScreenToClient(pd_.hwnd, &pos))
 				io.AddMousePosEvent((float)pos.x, (float)pos.y);
 		}
+
+		
+		io.MouseDown[0] = IsVkDown(VK_LBUTTON);
+		io.MouseDown[1] = IsVkDown(VK_RBUTTON);
+		io.MouseDown[2] = IsVkDown(VK_MBUTTON);
 	}
 }
 
