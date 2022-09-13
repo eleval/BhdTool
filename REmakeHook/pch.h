@@ -12,6 +12,7 @@
 #include <windows.h>
 #include <winternl.h>
 #include <imagehlp.h>
+#include <d3d9.h>
 
 // add headers that you want to pre-compile here
 #include "framework.h"
