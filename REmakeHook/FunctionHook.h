@@ -21,7 +21,7 @@ class TrampHook
 public:
 	TrampHook();
 
-	void Set(char* address, char* funcPtr, size_t len);
+	void Set(char* src, char* dst, size_t len);
 
 	void Apply();
 	void Remove();
@@ -29,6 +29,6 @@ public:
 	void* GetGateway();
 
 private:
-	FunctionHook hook_;
+	CodePatch codePatch_;
 	char* gateway_;
 };

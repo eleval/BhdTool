@@ -31,45 +31,30 @@ TrampHook::TrampHook()
 {
 }
 
-void Hook(char* src, char* dst, int len)
-{
-	DWORD oProc;
-	VirtualProtect(src, len, PAGE_EXECUTE_READWRITE, &oProc);
-	memset(src, 0x90, len);
-	uintptr_t relAddy = (uintptr_t)(dst - src - 5);
-	*src = (char)0xE9;
-	*(uintptr_t*)(src + 1) = (uintptr_t)relAddy;
-	VirtualProtect(src, len, oProc, &oProc);
-}
-
 void TrampHook::Set(char* src, char* dst, size_t len)
 {
 	assert(len >= 5);
-	//hook_.Set((size_t)src, dst, len);
-
-	/*gateway_ = (uint8_t*)VirtualAlloc(0, len + 5, MEM_COMMIT | MEM_RESERVE, PAGE_EXECUTE_READWRITE);
-	std::memcpy(gateway_, address, len);
-	const size_t jumpAddy = ((uintptr_t)address - (uintptr_t)gateway_) - 5;
-	*(uint8_t*)((uintptr_t)gateway_ + len) = 0xE9;
-	*(uintptr_t*)(gateway_ + len + 1) = jumpAddy;*/
-
 
 	gateway_ = (char*)VirtualAlloc(0, len + 5, MEM_COMMIT | MEM_RESERVE, PAGE_EXECUTE_READWRITE);
 	memcpy(gateway_, src, len);
 	uintptr_t jumpAddy = (uintptr_t)(src - gateway_ - 5);
 	*(gateway_ + len) = (char)0xE9;
 	*(uintptr_t*)(gateway_ + len + 1) = jumpAddy;
-	Hook(src, dst, len);
+
+	codePatch_.AddNops((size_t)src, len);
+	uint8_t hookRelAdd[4];
+	*(uintptr_t*)(hookRelAdd) = (uintptr_t)(dst - src - 5);
+	codePatch_.AddCode((size_t)src, { 0xE9, hookRelAdd[0], hookRelAdd[1], hookRelAdd[2], hookRelAdd[3] });
 }
 
 void TrampHook::Apply()
 {
-	hook_.Apply();
+	codePatch_.Apply();
 }
 
 void TrampHook::Remove()
 {
-	hook_.Remove();
+	codePatch_.Remove();
 }
 
 void* TrampHook::GetGateway()

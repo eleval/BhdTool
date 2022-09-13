@@ -93,14 +93,15 @@ using EndSceneFunc = HRESULT(APIENTRY*)(LPDIRECT3DDEVICE9);
 void APIENTRY hk_EndScene(LPDIRECT3DDEVICE9 device)
 {
 	EndSceneFunc d3dEndScene = (EndSceneFunc)endSceneHook_.GetGateway();
+	device->Clear(0, nullptr, D3DCLEAR_TARGET, 0xFF0000FF, 0.0f, 0);
 
 	d3dEndScene(device);
 }
 
-void hk_bhd_FUN_00666ac0()
+void hk_bhd_0x00666ac0()
 {
-	using bhd_FUN_00666ac0 = void (*)();
-	bhd_FUN_00666ac0 func = reinterpret_cast<bhd_FUN_00666ac0>(0x00666ac0);
+	using bhd_0x0666ac0 = void (*)();
+	bhd_0x0666ac0 func = reinterpret_cast<bhd_0x0666ac0>(0x00666ac0);
 	func();
 
 	if (GetD3D9Device(d3d9Device_, sizeof(d3d9Device_)))
@@ -115,6 +116,6 @@ void hk_bhd_FUN_00666ac0()
 void D3D9Hook::Init()
 {
 	FunctionHook hook;
-	hook.Set(0x00478DB4, &hk_bhd_FUN_00666ac0);
+	hook.Set(0x00478DB4, &hk_bhd_0x00666ac0);
 	hook.Apply();
 }
