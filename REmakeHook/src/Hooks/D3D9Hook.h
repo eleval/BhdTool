@@ -2,5 +2,5 @@
 
 namespace D3D9Hook
 {
-	void Init();
+	void FindD3D9DeviceAndInstallHooks();
 }

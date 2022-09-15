@@ -2,7 +2,7 @@
 
 namespace DoorSkip
 {
-	void Init();
+	void InitHook();
 	void Enable();
 	void Disable();
 }

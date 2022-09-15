@@ -8,6 +8,8 @@ namespace ImGui_Impl
 	void Shutdown();
 	bool IsInitialized();
 
+	void ProcessEvent(UINT message, WPARAM wParam, LPARAM lParam);
+
 	void NewFrame();
 	void EndFrame();
 

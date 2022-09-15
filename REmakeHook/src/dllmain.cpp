@@ -1,8 +1,7 @@
 // dllmain.cpp : Defines the entry point for the DLL application.
 #include "pch.h"
 
-#include "Hooks/D3D9Hook.h"
-#include "Hooks/DoorSkip.h"
+#include "Hooks/Hooks.h"
 
 #include "Utils/CodePatch.h"
 
@@ -48,10 +47,7 @@ void Init()
 		OriginalFunction = (DirectInput8Create_t)GetProcAddress(DInput8DLL, "DirectInput8Create");
 	}
 
-	D3D9Hook::Init();
-
-	DoorSkip::Init();
-	//DoorSkip::Enable();
+	Hooks::InstallHooks();
 }
 
 BOOL APIENTRY DllMain( HMODULE hModule,

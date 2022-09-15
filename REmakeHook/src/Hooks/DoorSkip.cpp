@@ -9,7 +9,7 @@ namespace
 	CodePatch doorSkipPatch_;
 }
 
-void DoorSkip::Init()
+void DoorSkip::InitHook()
 {
 	doorSkipPatch_.AddCode(0x0041CDD6, { 0xEB, 0x0C, 0x90 }); // Removes the entire door animation
 	doorSkipPatch_.AddNops(0x0042B0BF, 6); // Remove door being present for 5 frames

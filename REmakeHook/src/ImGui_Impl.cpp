@@ -390,51 +390,6 @@ void SetupRenderState(ImDrawData* draw_data)
 
 }
 
-LRESULT CALLBACK hk_bhd_WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
-{
-	using bhd_WndProc_t = LRESULT(CALLBACK*)(HWND, UINT, WPARAM, LPARAM);
-	//bhd_WndProc_t bhd_WndProc = (bhd_WndProc_t)wndProcHook_.GetGateway();
-	bhd_WndProc_t bhd_WndProc = (bhd_WndProc_t)0x00859b00;
-
-	if (message > WM_COMMAND)
-	{
-		return DefWindowProcW(hWnd, message, wParam, lParam);
-	}
-
-	if (ImGui_Impl::IsInitialized())
-	{
-		ImGuiIO& io = ImGui::GetIO();
-
-		switch (message)
-		{
-			case WM_KEYDOWN:
-				if (wParam < 256)
-					io.KeysDown[wParam] = true;
-				break;
-			case WM_KEYUP:
-				if (wParam < 256)
-					io.KeysDown[wParam] = false;
-				break;
-			case WM_CHAR:
-				if (wParam > 0 && wParam < 0x10000)
-					io.AddInputCharacterUTF16((unsigned short)wParam);
-				break;
-		}
-	}
-
-	switch (message)
-	{
-		// bhd does some shady things with these 3, which prevents keyboard events from being sent
-		// TODO : Investigate in details what is done
-		case WM_ACTIVATE:
-		case WM_ACTIVATEAPP:
-		case WM_NCACTIVATE:
-			return DefWindowProcW(hWnd, message, wParam, lParam);
-		default:
-			return bhd_WndProc(hWnd, message, wParam, lParam);
-	}
-}
-
 void ImGui_Impl::Init()
 {
 	IMGUI_CHECKVERSION();
@@ -517,6 +472,30 @@ void ImGui_Impl::Shutdown()
 bool ImGui_Impl::IsInitialized()
 {
 	return isInitialized_;
+}
+
+void ImGui_Impl::ProcessEvent(UINT message, WPARAM wParam, LPARAM lParam)
+{
+	if (ImGui_Impl::IsInitialized())
+	{
+		ImGuiIO& io = ImGui::GetIO();
+
+		switch (message)
+		{
+			case WM_KEYDOWN:
+				if (wParam < 256)
+					io.KeysDown[wParam] = true;
+				break;
+			case WM_KEYUP:
+				if (wParam < 256)
+					io.KeysDown[wParam] = false;
+				break;
+			case WM_CHAR:
+				if (wParam > 0 && wParam < 0x10000)
+					io.AddInputCharacterUTF16((unsigned short)wParam);
+				break;
+		}
+	}
 }
 
 void ImGui_Impl::NewFrame()

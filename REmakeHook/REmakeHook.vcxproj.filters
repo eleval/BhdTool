@@ -57,6 +57,18 @@
     <ClCompile Include="src\Game\GameData.cpp">
       <Filter>src\Game</Filter>
     </ClCompile>
+    <ClCompile Include="src\Hooks\WndProc.cpp">
+      <Filter>src\Hooks</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Utils\TrampHook.cpp">
+      <Filter>src\Utils</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Hooks\Hooks.cpp">
+      <Filter>src\Hooks</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Hooks\RoomJump.cpp">
+      <Filter>src\Hooks</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\ImGui_Impl.h">
@@ -97,6 +109,24 @@
     </ClInclude>
     <ClInclude Include="src\Hooks\D3D9Hook.h">
       <Filter>src\Hooks</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Hooks\WndProc.h">
+      <Filter>src\Hooks</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Utils\TrampHook.h">
+      <Filter>src\Utils</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Hooks\Hooks.h">
+      <Filter>src\Hooks</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Hooks\RoomJump.h">
+      <Filter>src\Hooks</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Game\TargetRoomData.h">
+      <Filter>src\Game</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Game\BhdTool.h">
+      <Filter>src</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
