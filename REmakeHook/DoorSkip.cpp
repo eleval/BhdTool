@@ -2,7 +2,7 @@
 
 #include "DoorSkip.h"
 
-#include "CodePatch.h"
+#include "Utils/CodePatch.h"
 
 namespace
 {

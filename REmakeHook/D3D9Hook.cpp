@@ -2,13 +2,14 @@
 
 #include "D3D9Hook.h"
 
-#include "CodePatch.h"
 #include "DoorSkip.h"
-#include "FunctionHook.h"
 #include "GameData.h"
 #include "ImGui_Impl.h"
 
 #include "imgui/imgui.h"
+
+#include "Utils/CallHook.h"
+#include "Utils/CodePatch.h"
 
 #include <d3d9.h>
 
@@ -323,11 +324,11 @@ LRESULT CALLBACK hk_bhd_WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM l
 
 void D3D9Hook::Init()
 {
-	FunctionHook hook;
+	CallHook hook;
 	hook.Set(0x00478DB4, &hk_bhd_0x00666ac0);
 	hook.Apply();
 
-	FunctionHook hook2;
+	CallHook hook2;
 	hook2.Set(0x0085b1e4, &hk_bhd_0x00768480);
 	hook2.Apply();
 
@@ -366,6 +367,6 @@ void D3D9Hook::Init()
 	CodePatch cp2;
 	uintptr_t wndProcAdd = (uintptr_t)(&hk_bhd_WndProc);
 	uint8_t* wndProcAdd8 = (uint8_t*)(&wndProcAdd);
-	cp2.AddCode(0x0085bc33, { wndProcAdd8[0], wndProcAdd8[1], wndProcAdd8[2], wndProcAdd8[3] });
+	cp2.AddCode(0x0085bc33, wndProcAdd);
 	cp2.Apply();
 }

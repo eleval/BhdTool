@@ -3,9 +3,10 @@
 #include "ImGui_Impl.h"
 
 #include "GameData.h"
-#include "FunctionHook.h"
 
 #include "imgui/imgui.h"
+
+#include "Utils/CallHook.h"
 
 #include <chrono>
 

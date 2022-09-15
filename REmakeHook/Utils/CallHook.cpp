@@ -1,14 +1,14 @@
 #include "pch.h"
 
-#include "FunctionHook.h"
+#include "CallHook.h"
 
 #include <cassert>
 
-FunctionHook::FunctionHook()
+CallHook::CallHook()
 {
 }
 
-void FunctionHook::Set(size_t address, void* funcPtr, size_t len)
+void CallHook::Set(size_t address, void* funcPtr, size_t len)
 {
 	size_t funcAddress = reinterpret_cast<size_t>(funcPtr);
 	funcAddress = funcAddress - address - 5;
@@ -17,12 +17,12 @@ void FunctionHook::Set(size_t address, void* funcPtr, size_t len)
 	codePatch_.AddCode(address, { 0xE8, funcAddressBytes[0], funcAddressBytes[1], funcAddressBytes[2], funcAddressBytes[3] });
 }
 
-void FunctionHook::Apply()
+void CallHook::Apply()
 {
 	codePatch_.Apply();
 }
 
-void FunctionHook::Remove()
+void CallHook::Remove()
 {
 	codePatch_.Remove();
 }

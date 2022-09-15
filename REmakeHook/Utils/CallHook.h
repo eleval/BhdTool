@@ -2,10 +2,10 @@
 
 #include "CodePatch.h"
 
-class FunctionHook
+class CallHook
 {
 public:
-	FunctionHook();
+	CallHook();
 
 	void Set(size_t address, void* funcPtr, size_t len = 5);
 
