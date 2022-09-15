@@ -11,6 +11,7 @@
 
 #include "Utils/CallHook.h"
 #include "Utils/CodePatch.h"
+#include "Utils/TrampHook.h"
 
 #include <d3d9.h>
 

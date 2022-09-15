@@ -53,8 +53,6 @@ namespace
 	};
 	ImGui_ImplPlatformData pd_;
 
-	TrampHook wndProcHook_;
-
 	bool isInitialized_ = false;
 
 	std::chrono::high_resolution_clock::time_point lastFrameTime;
