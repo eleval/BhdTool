@@ -69,6 +69,9 @@
     <ClCompile Include="src\Hooks\RoomJump.cpp">
       <Filter>src\Hooks</Filter>
     </ClCompile>
+    <ClCompile Include="src\BhdTool.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\ImGui_Impl.h">
@@ -125,7 +128,7 @@
     <ClInclude Include="src\Game\TargetRoomData.h">
       <Filter>src\Game</Filter>
     </ClInclude>
-    <ClInclude Include="src\Game\BhdTool.h">
+    <ClInclude Include="src\BhdTool.h">
       <Filter>src</Filter>
     </ClInclude>
   </ItemGroup>

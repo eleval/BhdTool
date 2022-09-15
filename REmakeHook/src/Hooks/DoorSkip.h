@@ -3,6 +3,6 @@
 namespace DoorSkip
 {
 	void InitHook();
-	void Enable();
-	void Disable();
+
+	void UpdateUI();
 }

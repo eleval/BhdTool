@@ -4,9 +4,26 @@
 
 #include "Utils/CodePatch.h"
 
+#include "imgui/imgui.h"
+
 namespace
 {
 	CodePatch doorSkipPatch_;
+}
+
+namespace
+{
+
+void Enable()
+{
+	doorSkipPatch_.Apply();
+}
+
+void Disable()
+{
+	doorSkipPatch_.Remove();
+}
+
 }
 
 void DoorSkip::InitHook()
@@ -17,12 +34,18 @@ void DoorSkip::InitHook()
 	doorSkipPatch_.AddNops(0x0041CDE6, 5); // Remove sounds
 }
 
-void DoorSkip::Enable()
+void DoorSkip::UpdateUI()
 {
-	doorSkipPatch_.Apply();
-}
-
-void DoorSkip::Disable()
-{
-	doorSkipPatch_.Remove();
+	static bool v = false;
+	if (ImGui::Checkbox("Enable Door Skip", &v))
+	{
+		if (v)
+		{
+			Enable();
+		}
+		else
+		{
+			Disable();
+		}
+	}
 }

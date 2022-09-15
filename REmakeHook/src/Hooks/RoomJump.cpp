@@ -5,6 +5,8 @@
 #include "Game/TargetRoomData.h"
 #include "Utils/TrampHook.h"
 
+#include "imgui/imgui.h"
+
 namespace
 {
 	int targetRoomNb_ = 0;
@@ -100,4 +102,16 @@ void RoomJump::InstallHook()
 	checkTriggersHook_.Apply();
 
 	bhd_CheckDoor = (uint32_t(__stdcall*)(float*, int))checkTriggersHook_.GetGateway();*/
+}
+
+void RoomJump::UpdateUI()
+{
+	if (ImGui::CollapsingHeader("Room Jump"))
+	{
+		ImGui::InputInt("Room", &targetRoomNb_, 1, 100, ImGuiInputTextFlags_CharsHexadecimal);
+		if (ImGui::Button("Jump"))
+		{
+			jumpRoom_ = true;
+		}
+	}
 }

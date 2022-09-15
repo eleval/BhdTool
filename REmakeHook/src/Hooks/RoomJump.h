@@ -3,4 +3,6 @@
 namespace RoomJump
 {
 	void InstallHook();
+
+	void UpdateUI();
 }

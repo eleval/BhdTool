@@ -19,6 +19,7 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="src\BhdTool.cpp" />
     <ClCompile Include="src\dllmain.cpp" />
     <ClCompile Include="src\Game\GameData.cpp" />
     <ClCompile Include="src\Hooks\D3D9Hook.cpp" />
@@ -50,7 +51,7 @@
     <ClCompile Include="src\Utils\TrampHook.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="src\Game\BhdTool.h" />
+    <ClInclude Include="src\BhdTool.h" />
     <ClInclude Include="src\Game\GameData.h" />
     <ClInclude Include="src\Game\TargetRoomData.h" />
     <ClInclude Include="src\Hooks\D3D9Hook.h" />
