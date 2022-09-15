@@ -59,9 +59,6 @@
     <ClInclude Include="src\DoorSkip.h">
       <Filter>src</Filter>
     </ClInclude>
-    <ClInclude Include="src\framework.h">
-      <Filter>src</Filter>
-    </ClInclude>
     <ClInclude Include="src\GameData.h">
       <Filter>src</Filter>
     </ClInclude>

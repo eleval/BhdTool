@@ -48,7 +48,6 @@
   <ItemGroup>
     <ClInclude Include="src\D3D9Hook.h" />
     <ClInclude Include="src\DoorSkip.h" />
-    <ClInclude Include="src\framework.h" />
     <ClInclude Include="src\GameData.h" />
     <ClInclude Include="src\imgui\imconfig.h" />
     <ClInclude Include="src\imgui\imgui.h" />
