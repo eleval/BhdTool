@@ -1,5 +1,5 @@
 #include "pch.h"
 
-#include "GameData.h"
+#include "Game/GameData.h"
 
 GamePlatformData g_gpd;

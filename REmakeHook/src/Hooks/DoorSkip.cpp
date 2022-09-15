@@ -1,6 +1,6 @@
 #include "pch.h"
 
-#include "DoorSkip.h"
+#include "Hooks/DoorSkip.h"
 
 #include "Utils/CodePatch.h"
 

@@ -10,18 +10,15 @@
     <Filter Include="src\Utils">
       <UniqueIdentifier>{55655b6d-d87f-48a7-afb4-cf1be66f6407}</UniqueIdentifier>
     </Filter>
+    <Filter Include="src\Hooks">
+      <UniqueIdentifier>{6726f7a2-e333-4efa-bb62-65a8927fab12}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src\Game">
+      <UniqueIdentifier>{7722fae0-f19b-4467-a0e8-f108faf34f8a}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="src\D3D9Hook.cpp">
-      <Filter>src</Filter>
-    </ClCompile>
     <ClCompile Include="src\dllmain.cpp">
-      <Filter>src</Filter>
-    </ClCompile>
-    <ClCompile Include="src\DoorSkip.cpp">
-      <Filter>src</Filter>
-    </ClCompile>
-    <ClCompile Include="src\GameData.cpp">
       <Filter>src</Filter>
     </ClCompile>
     <ClCompile Include="src\ImGui_Impl.cpp">
@@ -51,17 +48,17 @@
     <ClCompile Include="src\imgui\imgui_widgets.cpp">
       <Filter>src\imgui</Filter>
     </ClCompile>
+    <ClCompile Include="src\Hooks\DoorSkip.cpp">
+      <Filter>src\Hooks</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Hooks\D3D9Hook.cpp">
+      <Filter>src\Hooks</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Game\GameData.cpp">
+      <Filter>src\Game</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="src\D3D9Hook.h">
-      <Filter>src</Filter>
-    </ClInclude>
-    <ClInclude Include="src\DoorSkip.h">
-      <Filter>src</Filter>
-    </ClInclude>
-    <ClInclude Include="src\GameData.h">
-      <Filter>src</Filter>
-    </ClInclude>
     <ClInclude Include="src\ImGui_Impl.h">
       <Filter>src</Filter>
     </ClInclude>
@@ -91,6 +88,15 @@
     </ClInclude>
     <ClInclude Include="src\imgui\imstb_truetype.h">
       <Filter>src\imgui</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Hooks\DoorSkip.h">
+      <Filter>src\Hooks</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Game\GameData.h">
+      <Filter>src\Game</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Hooks\D3D9Hook.h">
+      <Filter>src\Hooks</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

@@ -1,8 +1,8 @@
 // dllmain.cpp : Defines the entry point for the DLL application.
 #include "pch.h"
 
-#include "D3D9Hook.h"
-#include "DoorSkip.h"
+#include "Hooks/D3D9Hook.h"
+#include "Hooks/DoorSkip.h"
 
 #include "Utils/CodePatch.h"
 

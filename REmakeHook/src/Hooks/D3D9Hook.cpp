@@ -1,10 +1,11 @@
 #include "pch.h"
 
-#include "D3D9Hook.h"
+#include "Hooks/D3D9Hook.h"
 
-#include "DoorSkip.h"
-#include "GameData.h"
 #include "ImGui_Impl.h"
+
+#include "Game/GameData.h"
+#include "Hooks/DoorSkip.h"
 
 #include "imgui/imgui.h"
 

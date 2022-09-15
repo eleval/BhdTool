@@ -19,10 +19,10 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="src\D3D9Hook.cpp" />
     <ClCompile Include="src\dllmain.cpp" />
-    <ClCompile Include="src\DoorSkip.cpp" />
-    <ClCompile Include="src\GameData.cpp" />
+    <ClCompile Include="src\Game\GameData.cpp" />
+    <ClCompile Include="src\Hooks\D3D9Hook.cpp" />
+    <ClCompile Include="src\Hooks\DoorSkip.cpp" />
     <ClCompile Include="src\imgui\imgui.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">NotUsing</PrecompiledHeader>
     </ClCompile>
@@ -46,9 +46,9 @@
     <ClCompile Include="src\Utils\CodePatch.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="src\D3D9Hook.h" />
-    <ClInclude Include="src\DoorSkip.h" />
-    <ClInclude Include="src\GameData.h" />
+    <ClInclude Include="src\Game\GameData.h" />
+    <ClInclude Include="src\Hooks\D3D9Hook.h" />
+    <ClInclude Include="src\Hooks\DoorSkip.h" />
     <ClInclude Include="src\imgui\imconfig.h" />
     <ClInclude Include="src\imgui\imgui.h" />
     <ClInclude Include="src\imgui\imgui_internal.h" />

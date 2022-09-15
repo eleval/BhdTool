@@ -2,7 +2,7 @@
 
 #include "ImGui_Impl.h"
 
-#include "GameData.h"
+#include "Game/GameData.h"
 
 #include "imgui/imgui.h"
 
