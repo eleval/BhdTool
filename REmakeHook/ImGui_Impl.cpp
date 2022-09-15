@@ -3,8 +3,11 @@
 #include "ImGui_Impl.h"
 
 #include "GameData.h"
+#include "FunctionHook.h"
 
 #include "imgui/imgui.h"
+
+#include <chrono>
 
 #ifdef IMGUI_USE_BGRA_PACKED_COLOR
 #define IMGUI_COL_TO_DX9_ARGB(_COL)     (_COL)
@@ -49,7 +52,11 @@ namespace
 	};
 	ImGui_ImplPlatformData pd_;
 
+	TrampHook wndProcHook_;
+
 	bool isInitialized_ = false;
+
+	std::chrono::high_resolution_clock::time_point lastFrameTime;
 }
 
 namespace
@@ -117,15 +124,15 @@ bool IsVkDown(int vk)
 	return (::GetKeyState(vk) & 0x8000) != 0;
 }
 
-void AddKeyEvent(ImGuiKey key, bool down, int native_keycode, int native_scancode = -1)
+/*void AddKeyEvent(ImGuiKey key, bool down, int native_keycode, int native_scancode = -1)
 {
 	ImGuiIO& io = ImGui::GetIO();
 	io.AddKeyEvent(key, down);
 	io.SetKeyEventNativeData(key, native_keycode, native_scancode); // To support legacy indexing (<1.87 user code)
 	IM_UNUSED(native_scancode);
-}
+}*/
 
-void ProcessKeyEventsWorkarounds()
+/*void ProcessKeyEventsWorkarounds()
 {
 	// Left & right Shift keys: when both are pressed together, Windows tend to not generate the WM_KEYUP event for the first released one.
 	if (ImGui::IsKeyDown(ImGuiKey_LeftShift) && !IsVkDown(VK_LSHIFT))
@@ -138,16 +145,16 @@ void ProcessKeyEventsWorkarounds()
 		AddKeyEvent(ImGuiKey_LeftSuper, false, VK_LWIN);
 	if (ImGui::IsKeyDown(ImGuiKey_RightSuper) && !IsVkDown(VK_RWIN))
 		AddKeyEvent(ImGuiKey_RightSuper, false, VK_RWIN);
-}
+}*/
 
-void UpdateKeyModifiers()
+/*void UpdateKeyModifiers()
 {
 	ImGuiIO& io = ImGui::GetIO();
 	io.AddKeyEvent(ImGuiKey_ModCtrl, IsVkDown(VK_CONTROL));
 	io.AddKeyEvent(ImGuiKey_ModShift, IsVkDown(VK_SHIFT));
 	io.AddKeyEvent(ImGuiKey_ModAlt, IsVkDown(VK_MENU));
 	io.AddKeyEvent(ImGuiKey_ModSuper, IsVkDown(VK_APPS));
-}
+}*/
 
 void UpdateMouseData()
 {
@@ -167,9 +174,16 @@ void UpdateMouseData()
 		// (Optional) Fallback to provide mouse position when focused (WM_MOUSEMOVE already provides this when hovered or captured)
 		if (!io.WantSetMousePos && !pd_.mouseTracked)
 		{
+			/*POINT pos;
+			if (::GetCursorPos(&pos) && ::ScreenToClient(pd_.hwnd, &pos))
+				io.AddMousePosEvent((float)pos.x, (float)pos.y);*/
+			
 			POINT pos;
 			if (::GetCursorPos(&pos) && ::ScreenToClient(pd_.hwnd, &pos))
-				io.AddMousePosEvent((float)pos.x, (float)pos.y);
+			{
+				io.MousePos.x = pos.x;
+				io.MousePos.y = pos.y;
+			}
 		}
 
 		
@@ -183,7 +197,7 @@ void UpdateMouseData()
 #define IM_VK_KEYPAD_ENTER      (VK_RETURN + 256)
 
 // Map VK_xxx to ImGuiKey_xxx.
-ImGuiKey VirtualKeyToImGuiKey(WPARAM wParam)
+/*ImGuiKey VirtualKeyToImGuiKey(WPARAM wParam)
 {
 	switch (wParam)
 	{
@@ -293,6 +307,19 @@ ImGuiKey VirtualKeyToImGuiKey(WPARAM wParam)
 		case VK_F12: return ImGuiKey_F12;
 		default: return ImGuiKey_None;
 	}
+}*/
+
+void UpdateKeyBoard()
+{
+	ImGuiIO& io = ImGui::GetIO();
+	for (WPARAM key = VK_BACK; key < VK_F12; ++key)
+	{
+		/*ImGuiKey imKey = VirtualKeyToImGuiKey(key);
+		if (imKey != ImGuiKey_None)*/
+		{
+			//io.KeysDown[key] = IsVkDown(key);
+		}
+	}
 }
 
 void SetupRenderState(ImDrawData* draw_data)
@@ -364,6 +391,51 @@ void SetupRenderState(ImDrawData* draw_data)
 
 }
 
+LRESULT CALLBACK hk_bhd_WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
+{
+	using bhd_WndProc_t = LRESULT(CALLBACK*)(HWND, UINT, WPARAM, LPARAM);
+	//bhd_WndProc_t bhd_WndProc = (bhd_WndProc_t)wndProcHook_.GetGateway();
+	bhd_WndProc_t bhd_WndProc = (bhd_WndProc_t)0x00859b00;
+
+	if (message > WM_COMMAND)
+	{
+		return DefWindowProcW(hWnd, message, wParam, lParam);
+	}
+
+	if (ImGui_Impl::IsInitialized())
+	{
+		ImGuiIO& io = ImGui::GetIO();
+
+		switch (message)
+		{
+			case WM_KEYDOWN:
+				if (wParam < 256)
+					io.KeysDown[wParam] = true;
+				break;
+			case WM_KEYUP:
+				if (wParam < 256)
+					io.KeysDown[wParam] = false;
+				break;
+			case WM_CHAR:
+				if (wParam > 0 && wParam < 0x10000)
+					io.AddInputCharacterUTF16((unsigned short)wParam);
+				break;
+		}
+	}
+
+	switch (message)
+	{
+		// bhd does some shady things with these 3, which prevents keyboard events from being sent
+		// TODO : Investigate in details what is done
+		case WM_ACTIVATE:
+		case WM_ACTIVATEAPP:
+		case WM_NCACTIVATE:
+			return DefWindowProcW(hWnd, message, wParam, lParam);
+		default:
+			return bhd_WndProc(hWnd, message, wParam, lParam);
+	}
+}
+
 void ImGui_Impl::Init()
 {
 	IMGUI_CHECKVERSION();
@@ -376,7 +448,9 @@ void ImGui_Impl::Init()
 	// Render stuff
 	io.BackendRendererUserData = &rd_;
 	io.BackendRendererName = "bhdDX9";
+	io.BackendFlags |= ImGuiBackendFlags_HasMouseCursors;
 	io.BackendFlags |= ImGuiBackendFlags_RendererHasVtxOffset;
+	io.BackendFlags |= ImGuiBackendFlags_HasSetMousePos;
 
 	rd_.d3dDevice = g_gpd.d3dDevice;
 	rd_.d3dDevice->AddRef();
@@ -399,7 +473,32 @@ void ImGui_Impl::Init()
 	pd_.time = perfCounter;
 	pd_.lastMouseCursor = ImGuiMouseCursor_COUNT;
 
-	ImGui::GetMainViewport()->PlatformHandleRaw = g_gpd.hwnd;
+	io.KeyMap[ImGuiKey_Tab] = VK_TAB;
+	io.KeyMap[ImGuiKey_LeftArrow] = VK_LEFT;
+	io.KeyMap[ImGuiKey_RightArrow] = VK_RIGHT;
+	io.KeyMap[ImGuiKey_UpArrow] = VK_UP;
+	io.KeyMap[ImGuiKey_DownArrow] = VK_DOWN;
+	io.KeyMap[ImGuiKey_PageUp] = VK_NEXT;
+	io.KeyMap[ImGuiKey_PageDown] = VK_PRIOR;
+	io.KeyMap[ImGuiKey_Home] = VK_HOME;
+	io.KeyMap[ImGuiKey_End] = VK_END;
+	io.KeyMap[ImGuiKey_Insert] = VK_INSERT;
+	io.KeyMap[ImGuiKey_Delete] = VK_DELETE;
+	io.KeyMap[ImGuiKey_Backspace] = VK_BACK;
+	io.KeyMap[ImGuiKey_Space] = VK_SPACE;
+	io.KeyMap[ImGuiKey_Enter] = VK_RETURN;
+	io.KeyMap[ImGuiKey_Escape] = VK_ESCAPE;
+	io.KeyMap[ImGuiKey_A] = 'a';
+	io.KeyMap[ImGuiKey_C] = 'c';
+	io.KeyMap[ImGuiKey_V] = 'v';
+	io.KeyMap[ImGuiKey_X] = 'x';
+	io.KeyMap[ImGuiKey_Y] = 'y';
+	io.KeyMap[ImGuiKey_Z] = 'z';
+
+	//ImGui::GetMainViewport()->PlatformHandleRaw = g_gpd.hwnd;
+
+	//wndProcHook_.Set((char*)0x00859b00, (char*)&hk_bhd_WndProc, 8);
+	//wndProcHook_.Apply();
 
 	isInitialized_ = true;
 }
@@ -424,6 +523,10 @@ bool ImGui_Impl::IsInitialized()
 void ImGui_Impl::NewFrame()
 {
 	ImGuiIO& io = ImGui::GetIO();
+	const std::chrono::high_resolution_clock::time_point currentTime = std::chrono::high_resolution_clock::now();
+	const auto deltaTime = std::chrono::duration_cast<std::chrono::milliseconds>(currentTime - lastFrameTime);
+	lastFrameTime = currentTime;
+	io.DeltaTime = deltaTime.count() / 1000.0f;
 
 	// Setup display size (every frame to accommodate for window resizing)
 	RECT rect = { 0, 0, 0, 0 };
@@ -431,16 +534,18 @@ void ImGui_Impl::NewFrame()
 	io.DisplaySize = ImVec2((float)(rect.right - rect.left), (float)(rect.bottom - rect.top));
 
 	// Setup time step
-	INT64 currentTime = 0;
+	/*INT64 currentTime = 0;
 	::QueryPerformanceCounter((LARGE_INTEGER*)&currentTime);
 	io.DeltaTime = (float)(currentTime - pd_.time) / pd_.ticksPerSecond;
-	pd_.time = currentTime;
+	pd_.time = currentTime;*/
 
 	// Update OS mouse position
 	UpdateMouseData();
 
 	// Process workarounds for known Windows key handling issues
-	ProcessKeyEventsWorkarounds();
+	//ProcessKeyEventsWorkarounds();
+
+	UpdateKeyBoard();
 
 	// Update OS mouse cursor with the cursor requested by imgui
 	ImGuiMouseCursor mouse_cursor = io.MouseDrawCursor ? ImGuiMouseCursor_None : ImGui::GetMouseCursor();
