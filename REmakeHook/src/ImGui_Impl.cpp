@@ -182,8 +182,8 @@ void UpdateMouseData()
 			POINT pos;
 			if (::GetCursorPos(&pos) && ::ScreenToClient(pd_.hwnd, &pos))
 			{
-				io.MousePos.x = pos.x;
-				io.MousePos.y = pos.y;
+				io.MousePos.x = static_cast<float>(pos.x);
+				io.MousePos.y = static_cast<float>(pos.y);
 			}
 		}
 
