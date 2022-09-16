@@ -16,6 +16,9 @@
     <Filter Include="src\Game">
       <UniqueIdentifier>{7722fae0-f19b-4467-a0e8-f108faf34f8a}</UniqueIdentifier>
     </Filter>
+    <Filter Include="src\json11">
+      <UniqueIdentifier>{70b07e1b-cd55-4525-8db6-4c5d81159e81}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\dllmain.cpp">
@@ -71,6 +74,9 @@
     </ClCompile>
     <ClCompile Include="src\BhdTool.cpp">
       <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="src\json11\json11.cpp">
+      <Filter>src\json11</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -130,6 +136,9 @@
     </ClInclude>
     <ClInclude Include="src\BhdTool.h">
       <Filter>src</Filter>
+    </ClInclude>
+    <ClInclude Include="src\json11\json11.hpp">
+      <Filter>src\json11</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

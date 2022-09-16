@@ -14,13 +14,6 @@ LRESULT CALLBACK hk_bhd_WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM l
 	using bhd_WndProc_t = LRESULT(CALLBACK*)(HWND, UINT, WPARAM, LPARAM);
 	bhd_WndProc_t bhd_WndProc = (bhd_WndProc_t)0x00859b00;
 
-	// Do not prevent some system keys from doing anyhing
-	// TODO : Should have an option to toggle it on/off
-	if (message > WM_COMMAND)
-	{
-		return DefWindowProcW(hWnd, message, wParam, lParam);
-	}
-
 	ImGui_Impl::ProcessEvent(message, wParam, lParam);
 
 	switch (message)
@@ -32,6 +25,12 @@ LRESULT CALLBACK hk_bhd_WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM l
 		case WM_NCACTIVATE:
 			return DefWindowProcW(hWnd, message, wParam, lParam);
 		default:
+			// Do not prevent some system keys from doing anyhing
+			// TODO : Should have an option to toggle it on/off
+			if (message > WM_COMMAND)
+			{
+				return DefWindowProcW(hWnd, message, wParam, lParam);
+			}
 			return bhd_WndProc(hWnd, message, wParam, lParam);
 	}
 }

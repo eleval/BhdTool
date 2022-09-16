@@ -494,6 +494,12 @@ void ImGui_Impl::ProcessEvent(UINT message, WPARAM wParam, LPARAM lParam)
 				if (wParam > 0 && wParam < 0x10000)
 					io.AddInputCharacterUTF16((unsigned short)wParam);
 				break;
+			case WM_MOUSEWHEEL:
+				io.MouseWheel += (float)GET_WHEEL_DELTA_WPARAM(wParam) / (float)WHEEL_DELTA;
+				break;
+			case WM_MOUSEHWHEEL:
+				io.MouseWheelH += (float)GET_WHEEL_DELTA_WPARAM(wParam) / (float)WHEEL_DELTA;
+				break;
 		}
 	}
 }
