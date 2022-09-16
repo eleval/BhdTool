@@ -1,3 +1,6 @@
 [submodule "REmakeHook/imgui"]
 	path = REmakeHook/src/imgui
 	url = https://github.com/ocornut/imgui
+[submodule "REmakeHook/src/json11"]
+	path = REmakeHook/src/json11
+	url = https://github.com/dropbox/json11
