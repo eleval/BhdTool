@@ -7,8 +7,6 @@
 #include "Game/GameData.h"
 
 #include "Hooks/D3D9Hook.h"
-#include "Hooks/DoorSkip.h"
-#include "Hooks/RoomJump.h"
 #include "Hooks/WndProc.h"
 
 #include "Utils/CallHook.h"
@@ -56,7 +54,5 @@ void Hooks::InstallHooks()
 	hook.Set(0x0085b1e4, &hk_bhd_0x00768480);
 	hook.Apply();
 
-	DoorSkip::InitHook();
-	RoomJump::InstallHook();
 	WndProc::InstallHook();
 }

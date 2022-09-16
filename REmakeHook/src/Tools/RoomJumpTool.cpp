@@ -1,6 +1,6 @@
 #include "pch.h"
 
-#include "Hooks/RoomJump.h"
+#include "Tools/RoomJumpTool.h"
 
 #include "Game/TargetRoomData.h"
 #include "Utils/TrampHook.h"
@@ -35,7 +35,7 @@ namespace
 	int selectedJumpPoint_ = 0;
 
 	int jumpRoomNb_ = 0;
-	float jumpRoomCoords_[3] = { 0.0f, 0.0f, 0.0f };
+	float jumpCoords_[3] = { 0.0f, 0.0f, 0.0f };
 	float jumpAngle_ = 0.0f;
 	uint32_t jumpCut_ = 0;
 	uint32_t jumpPage_ = 0;
@@ -75,9 +75,9 @@ int __fastcall hk_bhd_CheckForTriggers(void* obj, void* edx, int param_1, uint32
 		target->stage = jumpRoomNb_ / 0x100;
 		target->room = jumpRoomNb_ % 0x100;
 		target->cut = jumpCut_;
-		target->x = jumpRoomCoords_[0];
-		target->y = jumpRoomCoords_[1];
-		target->z = jumpRoomCoords_[2];
+		target->x = jumpCoords_[0];
+		target->y = jumpCoords_[1];
+		target->z = jumpCoords_[2];
 		target->page = jumpPage_;
 		target->angle = (jumpAngle_ / 180.0f) * PI;
 
@@ -92,7 +92,7 @@ int __fastcall hk_bhd_CheckForTriggers(void* obj, void* edx, int param_1, uint32
 
 }
 
-void RoomJump::InstallHook()
+void RoomJumpTool::Init()
 {
 	checkForTriggersHook_.Set((char*)0x0041dc40, (char*)&hk_bhd_CheckForTriggers, 9);
 	checkForTriggersHook_.Apply();
@@ -161,67 +161,70 @@ void RoomJump::InstallHook()
 	bhd_CheckDoor = (uint32_t(__stdcall*)(float*, int))checkTriggersHook_.GetGateway();*/
 }
 
-void RoomJump::UpdateUI()
+void RoomJumpTool::UpdateUI()
 {
 	if (ImGui::CollapsingHeader("Room Jump"))
 	{
-		if (ImGui::BeginCombo("Room", rooms_[selectedRoom_].name.c_str()))
+		if (!rooms_.empty())
 		{
-			for (int i = 0; i < static_cast<int>(rooms_.size()); ++i)
+			if (ImGui::BeginCombo("Room", rooms_[selectedRoom_].name.c_str()))
 			{
-				bool selected = i == selectedRoom_;
-				if (ImGui::Selectable(rooms_[i].name.c_str(), &selected))
+				for (int i = 0; i < static_cast<int>(rooms_.size()); ++i)
 				{
-					selectedRoom_ = i;
-					selectedJumpPoint_ = 0;
+					bool selected = i == selectedRoom_;
+					if (ImGui::Selectable(rooms_[i].name.c_str(), &selected))
+					{
+						selectedRoom_ = i;
+						selectedJumpPoint_ = 0;
+					}
+				}
+				ImGui::EndCombo();
+			}
+			ImGui::Text("Doors");
+			const Room& room = rooms_[selectedRoom_];
+			for (int i = 0; i < static_cast<int>(room.jumpPoints.size()); ++i)
+			{
+				if (i % 4 != 0)
+				{
+					ImGui::SameLine();
+				}
+				if (ImGui::RadioButton(std::to_string(i).c_str(), i == selectedJumpPoint_))
+				{
+					selectedJumpPoint_ = i;
 				}
 			}
-			ImGui::EndCombo();
-		}
-		ImGui::Text("Doors");
-		const Room& room = rooms_[selectedRoom_];
-		for (int i = 0; i < static_cast<int>(room.jumpPoints.size()); ++i)
-		{
-			if (i % 4 != 0)
-			{
-				ImGui::SameLine();
-			}
-			if (ImGui::RadioButton(std::to_string(i).c_str(), i == selectedJumpPoint_))
-			{
-				selectedJumpPoint_ = i;
-			}
-		}
 
-		static bool manualEnter = false;
-		ImGui::Checkbox("Set coords manually", &manualEnter);
-		if (manualEnter)
-		{
-			ImGui::InputFloat3("Coords", jumpRoomCoords_);
-			ImGui::InputFloat("Angle", &jumpAngle_);
-			jumpAngle_ = std::clamp(jumpAngle_, 0.0f, 360.0f);
-		}
-
-		if (ImGui::Button("Jump"))
-		{
-			const Room& room = rooms_[selectedRoom_];
-			const RoomJumpPoint& jumpPoint = room.jumpPoints[selectedJumpPoint_];
-			jumpRoomNb_ = room.roomNb;
-
-			if (!manualEnter)
+			static bool manualEnter = false;
+			ImGui::Checkbox("Set coords manually", &manualEnter);
+			if (manualEnter)
 			{
-				jumpRoomCoords_[0] = jumpPoint.x;
-				jumpRoomCoords_[1] = jumpPoint.y;
-				jumpRoomCoords_[2] = jumpPoint.z;
-				jumpAngle_ = jumpPoint.angle;
-				jumpCut_ = jumpPoint.cut;
-				jumpPage_ = jumpPoint.page;
+				ImGui::InputFloat3("Coords", jumpCoords_);
+				ImGui::InputFloat("Angle", &jumpAngle_);
+				jumpAngle_ = std::clamp(jumpAngle_, 0.0f, 360.0f);
 			}
-			else
+
+			if (ImGui::Button("Jump"))
 			{
-				jumpCut_ = 0;
-				jumpPage_ = 0;
+				const Room& room = rooms_[selectedRoom_];
+				const RoomJumpPoint& jumpPoint = room.jumpPoints[selectedJumpPoint_];
+				jumpRoomNb_ = room.roomNb;
+
+				if (!manualEnter)
+				{
+					jumpCoords_[0] = jumpPoint.x;
+					jumpCoords_[1] = jumpPoint.y;
+					jumpCoords_[2] = jumpPoint.z;
+					jumpAngle_ = jumpPoint.angle;
+					jumpCut_ = jumpPoint.cut;
+					jumpPage_ = jumpPoint.page;
+				}
+				else
+				{
+					jumpCut_ = 0;
+					jumpPage_ = 0;
+				}
+				jumpRoom_ = true;
 			}
-			jumpRoom_ = true;
 		}
 	}
 }

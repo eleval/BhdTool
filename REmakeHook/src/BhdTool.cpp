@@ -2,8 +2,8 @@
 
 #include "BhdTool.h"
 
-#include "Hooks/DoorSkip.h"
-#include "Hooks/RoomJump.h"
+#include "Tools/DoorSkipTool.h"
+#include "Tools/RoomJumpTool.h"
 
 #include "ImGui_Impl.h"
 
@@ -14,14 +14,20 @@ namespace
 	bool isOpen_ = false;
 }
 
+void BhdTool::Init()
+{
+	DoorSkipTool::Init();
+	RoomJumpTool::Init();
+}
+
 void BhdTool::Update()
 {
 	if (ImGui_Impl::IsInitialized())
 	{
 		if (ImGui::Begin("BHD Tool"))
 		{
-			DoorSkip::UpdateUI();
-			RoomJump::UpdateUI();
+			DoorSkipTool::UpdateUI();
+			RoomJumpTool::UpdateUI();
 		}
 		ImGui::End();
 	}

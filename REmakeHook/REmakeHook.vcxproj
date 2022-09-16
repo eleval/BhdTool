@@ -22,10 +22,9 @@
     <ClCompile Include="src\BhdTool.cpp" />
     <ClCompile Include="src\dllmain.cpp" />
     <ClCompile Include="src\Game\GameData.cpp" />
+    <ClCompile Include="src\Game\Inventory.cpp" />
     <ClCompile Include="src\Hooks\D3D9Hook.cpp" />
-    <ClCompile Include="src\Hooks\DoorSkip.cpp" />
     <ClCompile Include="src\Hooks\Hooks.cpp" />
-    <ClCompile Include="src\Hooks\RoomJump.cpp" />
     <ClCompile Include="src\Hooks\WndProc.cpp" />
     <ClCompile Include="src\imgui\imgui.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">NotUsing</PrecompiledHeader>
@@ -49,6 +48,8 @@
     <ClCompile Include="src\pch.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
     </ClCompile>
+    <ClCompile Include="src\Tools\DoorSkipTool.cpp" />
+    <ClCompile Include="src\Tools\RoomJumpTool.cpp" />
     <ClCompile Include="src\Utils\CallHook.cpp" />
     <ClCompile Include="src\Utils\CodePatch.cpp" />
     <ClCompile Include="src\Utils\TrampHook.cpp" />
@@ -56,11 +57,10 @@
   <ItemGroup>
     <ClInclude Include="src\BhdTool.h" />
     <ClInclude Include="src\Game\GameData.h" />
+    <ClInclude Include="src\Game\Inventory.h" />
     <ClInclude Include="src\Game\TargetRoomData.h" />
     <ClInclude Include="src\Hooks\D3D9Hook.h" />
-    <ClInclude Include="src\Hooks\DoorSkip.h" />
     <ClInclude Include="src\Hooks\Hooks.h" />
-    <ClInclude Include="src\Hooks\RoomJump.h" />
     <ClInclude Include="src\Hooks\WndProc.h" />
     <ClInclude Include="src\imgui\imconfig.h" />
     <ClInclude Include="src\imgui\imgui.h" />
@@ -71,6 +71,8 @@
     <ClInclude Include="src\ImGui_Impl.h" />
     <ClInclude Include="src\json11\json11.hpp" />
     <ClInclude Include="src\pch.h" />
+    <ClInclude Include="src\Tools\DoorSkipTool.h" />
+    <ClInclude Include="src\Tools\RoomJumpTool.h" />
     <ClInclude Include="src\Utils\CallHook.h" />
     <ClInclude Include="src\Utils\CodePatch.h" />
     <ClInclude Include="src\Utils\TrampHook.h" />

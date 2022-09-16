@@ -3,7 +3,7 @@
 
 #include "Hooks/Hooks.h"
 
-#include "Utils/CodePatch.h"
+#include "BhdTool.h"
 
 #include <unknwn.h>
 
@@ -48,6 +48,7 @@ void Init()
 	}
 
 	Hooks::InstallHooks();
+	BhdTool::Init();
 }
 
 BOOL APIENTRY DllMain( HMODULE hModule,

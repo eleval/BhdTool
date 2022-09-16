@@ -19,6 +19,9 @@
     <Filter Include="src\json11">
       <UniqueIdentifier>{70b07e1b-cd55-4525-8db6-4c5d81159e81}</UniqueIdentifier>
     </Filter>
+    <Filter Include="src\Tools">
+      <UniqueIdentifier>{1069b9f0-db61-4e83-8718-78fcd933abab}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\dllmain.cpp">
@@ -51,9 +54,6 @@
     <ClCompile Include="src\imgui\imgui_widgets.cpp">
       <Filter>src\imgui</Filter>
     </ClCompile>
-    <ClCompile Include="src\Hooks\DoorSkip.cpp">
-      <Filter>src\Hooks</Filter>
-    </ClCompile>
     <ClCompile Include="src\Hooks\D3D9Hook.cpp">
       <Filter>src\Hooks</Filter>
     </ClCompile>
@@ -69,14 +69,20 @@
     <ClCompile Include="src\Hooks\Hooks.cpp">
       <Filter>src\Hooks</Filter>
     </ClCompile>
-    <ClCompile Include="src\Hooks\RoomJump.cpp">
-      <Filter>src\Hooks</Filter>
-    </ClCompile>
     <ClCompile Include="src\BhdTool.cpp">
       <Filter>src</Filter>
     </ClCompile>
     <ClCompile Include="src\json11\json11.cpp">
       <Filter>src\json11</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Game\Inventory.cpp">
+      <Filter>src\Game</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Tools\RoomJumpTool.cpp">
+      <Filter>src\Tools</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Tools\DoorSkipTool.cpp">
+      <Filter>src\Tools</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -110,9 +116,6 @@
     <ClInclude Include="src\imgui\imstb_truetype.h">
       <Filter>src\imgui</Filter>
     </ClInclude>
-    <ClInclude Include="src\Hooks\DoorSkip.h">
-      <Filter>src\Hooks</Filter>
-    </ClInclude>
     <ClInclude Include="src\Game\GameData.h">
       <Filter>src\Game</Filter>
     </ClInclude>
@@ -128,9 +131,6 @@
     <ClInclude Include="src\Hooks\Hooks.h">
       <Filter>src\Hooks</Filter>
     </ClInclude>
-    <ClInclude Include="src\Hooks\RoomJump.h">
-      <Filter>src\Hooks</Filter>
-    </ClInclude>
     <ClInclude Include="src\Game\TargetRoomData.h">
       <Filter>src\Game</Filter>
     </ClInclude>
@@ -139,6 +139,15 @@
     </ClInclude>
     <ClInclude Include="src\json11\json11.hpp">
       <Filter>src\json11</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Game\Inventory.h">
+      <Filter>src\Game</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Tools\DoorSkipTool.h">
+      <Filter>src\Tools</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Tools\RoomJumpTool.h">
+      <Filter>src\Tools</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

@@ -2,5 +2,6 @@
 
 namespace BhdTool
 {
+	void Init();
 	void Update();
 }
