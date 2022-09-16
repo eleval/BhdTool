@@ -75,13 +75,13 @@
     <ClCompile Include="src\json11\json11.cpp">
       <Filter>src\json11</Filter>
     </ClCompile>
-    <ClCompile Include="src\Game\Inventory.cpp">
-      <Filter>src\Game</Filter>
-    </ClCompile>
     <ClCompile Include="src\Tools\RoomJumpTool.cpp">
       <Filter>src\Tools</Filter>
     </ClCompile>
     <ClCompile Include="src\Tools\DoorSkipTool.cpp">
+      <Filter>src\Tools</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Tools\InventoryTool.cpp">
       <Filter>src\Tools</Filter>
     </ClCompile>
   </ItemGroup>
@@ -140,14 +140,17 @@
     <ClInclude Include="src\json11\json11.hpp">
       <Filter>src\json11</Filter>
     </ClInclude>
-    <ClInclude Include="src\Game\Inventory.h">
-      <Filter>src\Game</Filter>
-    </ClInclude>
     <ClInclude Include="src\Tools\DoorSkipTool.h">
       <Filter>src\Tools</Filter>
     </ClInclude>
     <ClInclude Include="src\Tools\RoomJumpTool.h">
       <Filter>src\Tools</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Tools\InventoryTool.h">
+      <Filter>src\Tools</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Game\Items.h">
+      <Filter>src\Game</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

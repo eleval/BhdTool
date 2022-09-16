@@ -3,6 +3,7 @@
 #include "BhdTool.h"
 
 #include "Tools/DoorSkipTool.h"
+#include "Tools/InventoryTool.h"
 #include "Tools/RoomJumpTool.h"
 
 #include "ImGui_Impl.h"
@@ -28,6 +29,7 @@ void BhdTool::Update()
 		{
 			DoorSkipTool::UpdateUI();
 			RoomJumpTool::UpdateUI();
+			InventoryTool::UpdateUI();
 		}
 		ImGui::End();
 	}
