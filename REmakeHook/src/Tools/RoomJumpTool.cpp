@@ -9,7 +9,7 @@
 #include "imgui/imgui.h"
 
 #include <algorithm>
-#include <string.h>
+#include <string>
 
 namespace
 {
