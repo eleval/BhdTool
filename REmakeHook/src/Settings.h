@@ -81,12 +81,7 @@ inline void Setting<bool>::LoadInternal(const char* iniFileName, const char* cat
 template<>
 inline void Setting<bool>::SaveInternal(const char* iniFileName, const char* category)
 {
-	if (WritePrivateProfileStringA(category, name_.c_str(), std::to_string(val_ ? 1 : 0).c_str(), iniFileName) == FALSE)
-	{
-		OutputDebugStringA("Failed to write setting to file\n");
-		OutputDebugStringA(std::to_string(GetLastError()).c_str());
-		OutputDebugStringA("\n");
-	}
+	WritePrivateProfileStringA(category, name_.c_str(), std::to_string(val_ ? 1 : 0).c_str(), iniFileName);
 }
 
 template<>
