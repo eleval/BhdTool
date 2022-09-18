@@ -58,6 +58,18 @@ int __fastcall hk_bhd_ExecuteTrigger(void* obj, void* edx, int param_1, int para
 	{
 		uint8_t* pVal = (uint8_t*)((uintptr_t)param_1 + 0x30);
 		*pVal = 6;
+
+		// Adding nops to skip a call showing the text but not skipping a push before it
+		// This somehow shows the save menu without corrupting the stack?
+		// Anyway, it works, so GG? xD
+		CodePatch cp;
+		cp.AddNops(0x00409c81, 2);
+		cp.AddNops(0x00409c85, 5);
+		cp.Apply();
+
+		const int ret = bhd_ExecuteTrigger(obj, edx, param_1, param_2, param_3);;
+		cp.Remove();
+		return ret;
 	}
 
 	return bhd_ExecuteTrigger(obj, edx, param_1, param_2, param_3);
