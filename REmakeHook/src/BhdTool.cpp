@@ -5,6 +5,7 @@
 #include "Tools/DoorSkipTool.h"
 #include "Tools/InventoryTool.h"
 #include "Tools/RoomJumpTool.h"
+#include "Tools/SaveTool.h"
 
 #include "ImGui_Impl.h"
 
@@ -19,6 +20,7 @@ void BhdTool::Init()
 {
 	DoorSkipTool::Init();
 	RoomJumpTool::Init();
+	SaveTool::Init();
 }
 
 void BhdTool::Update()
@@ -30,6 +32,7 @@ void BhdTool::Update()
 			DoorSkipTool::UpdateUI();
 			RoomJumpTool::UpdateUI();
 			InventoryTool::UpdateUI();
+			SaveTool::UpdateUI();
 		}
 		ImGui::End();
 	}

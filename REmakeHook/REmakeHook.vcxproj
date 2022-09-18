@@ -50,6 +50,7 @@
     <ClCompile Include="src\Tools\DoorSkipTool.cpp" />
     <ClCompile Include="src\Tools\InventoryTool.cpp" />
     <ClCompile Include="src\Tools\RoomJumpTool.cpp" />
+    <ClCompile Include="src\Tools\SaveTool.cpp" />
     <ClCompile Include="src\Utils\CallHook.cpp" />
     <ClCompile Include="src\Utils\CodePatch.cpp" />
     <ClCompile Include="src\Utils\TrampHook.cpp" />
@@ -68,12 +69,14 @@
     <ClInclude Include="src\imgui\imstb_rectpack.h" />
     <ClInclude Include="src\imgui\imstb_textedit.h" />
     <ClInclude Include="src\imgui\imstb_truetype.h" />
+    <ClInclude Include="src\ImGui_Helper.h" />
     <ClInclude Include="src\ImGui_Impl.h" />
     <ClInclude Include="src\json11\json11.hpp" />
     <ClInclude Include="src\pch.h" />
     <ClInclude Include="src\Tools\DoorSkipTool.h" />
     <ClInclude Include="src\Tools\InventoryTool.h" />
     <ClInclude Include="src\Tools\RoomJumpTool.h" />
+    <ClInclude Include="src\Tools\SaveTool.h" />
     <ClInclude Include="src\Utils\CallHook.h" />
     <ClInclude Include="src\Utils\CodePatch.h" />
     <ClInclude Include="src\Utils\TrampHook.h" />
