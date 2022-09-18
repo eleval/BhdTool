@@ -32,6 +32,7 @@ If you wish to request or add more features to the project (or fix bugs), do not
 - Proper unicode support for settings file (currently only using ANSI functions, which is fine for most cases but settings file should be saved using Unicode version)
 - Various informations about the game (like character coords, enemies, etc...)
 - Controller support
+- Flag editor (Save/Kill Barry, Mansion Part 1 & 2, etc...)
 - And more...
 
 ## Donations
