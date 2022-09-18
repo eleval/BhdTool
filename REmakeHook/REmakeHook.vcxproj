@@ -47,6 +47,7 @@
     <ClCompile Include="src\pch.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
     </ClCompile>
+    <ClCompile Include="src\Settings.cpp" />
     <ClCompile Include="src\Tools\InventoryTool.cpp" />
     <ClCompile Include="src\Tools\OptionsTool.cpp" />
     <ClCompile Include="src\Tools\RoomJumpTool.cpp" />
@@ -73,6 +74,7 @@
     <ClInclude Include="src\ImGui_Impl.h" />
     <ClInclude Include="src\json11\json11.hpp" />
     <ClInclude Include="src\pch.h" />
+    <ClInclude Include="src\Settings.h" />
     <ClInclude Include="src\Tools\InventoryTool.h" />
     <ClInclude Include="src\Tools\OptionsTool.h" />
     <ClInclude Include="src\Tools\RoomJumpTool.h" />

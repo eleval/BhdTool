@@ -87,6 +87,9 @@
     <ClCompile Include="src\Tools\OptionsTool.cpp">
       <Filter>src\Tools</Filter>
     </ClCompile>
+    <ClCompile Include="src\Settings.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\ImGui_Impl.h">
@@ -160,6 +163,9 @@
     </ClInclude>
     <ClInclude Include="src\Tools\OptionsTool.h">
       <Filter>src\Tools</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Settings.h">
+      <Filter>src</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

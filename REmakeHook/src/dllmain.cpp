@@ -4,6 +4,7 @@
 #include "Hooks/Hooks.h"
 
 #include "BhdTool.h"
+#include "Settings.h"
 
 #include <unknwn.h>
 
@@ -12,6 +13,8 @@
 #else
 #define DINPUT8_API __declspec(dllimport)
 #endif
+
+Setting<bool> s_enableBhdTool("EnableBhdTool", true);
 
 typedef HRESULT(WINAPI*DirectInput8Create_t)(
 	HINSTANCE hinst,
@@ -47,8 +50,13 @@ void Init()
 		OriginalFunction = (DirectInput8Create_t)GetProcAddress(DInput8DLL, "DirectInput8Create");
 	}
 
-	Hooks::InstallHooks();
-	BhdTool::Init();
+	Settings::LoadSettings();
+
+	if (s_enableBhdTool.Get())
+	{
+		Hooks::InstallHooks();
+		BhdTool::Init();
+	}
 }
 
 BOOL APIENTRY DllMain( HMODULE hModule,
@@ -63,7 +71,7 @@ BOOL APIENTRY DllMain( HMODULE hModule,
 		break;
     case DLL_THREAD_ATTACH:
     case DLL_THREAD_DETACH:
-    case DLL_PROCESS_DETACH:
+	case DLL_PROCESS_DETACH:
         break;
     }
     return TRUE;

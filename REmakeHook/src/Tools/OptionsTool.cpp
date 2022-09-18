@@ -2,14 +2,16 @@
 
 #include "Tools/OptionsTool.h"
 
+#include "Settings.h"
 #include "Utils/CodePatch.h"
 
 #include "imgui/imgui.h"
 
+Setting<bool> s_enabledDoorSkip("EnableDoorSkip", false);
+
 namespace
 {
 	CodePatch doorSkipPatch_;
-	bool doorSkipEnabled_ = false;
 }
 
 void OptionsTool::Init()
@@ -24,9 +26,11 @@ void OptionsTool::UpdateUI()
 {
 	if (ImGui::CollapsingHeader("Options"))
 	{
-		if (ImGui::Checkbox("Enable Door Skip", &doorSkipEnabled_))
+		bool doorSkipEnabled = s_enabledDoorSkip.Get();
+		if (ImGui::Checkbox("Enable Door Skip", &doorSkipEnabled))
 		{
-			if (doorSkipEnabled_)
+			s_enabledDoorSkip.Set(doorSkipEnabled);
+			if (doorSkipEnabled)
 			{
 				doorSkipPatch_.Apply();
 			}
