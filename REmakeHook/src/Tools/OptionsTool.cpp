@@ -1,6 +1,6 @@
 #include "pch.h"
 
-#include "Tools/DoorSkipTool.h"
+#include "Tools/OptionsTool.h"
 
 #include "Utils/CodePatch.h"
 
@@ -12,22 +12,7 @@ namespace
 	bool doorSkipEnabled_ = false;
 }
 
-namespace
-{
-
-void Enable()
-{
-	doorSkipPatch_.Apply();
-}
-
-void Disable()
-{
-	doorSkipPatch_.Remove();
-}
-
-}
-
-void DoorSkipTool::Init()
+void OptionsTool::Init()
 {
 	doorSkipPatch_.AddCode(0x0041CDD6, { 0xEB, 0x0C, 0x90 }); // Removes the entire door animation
 	doorSkipPatch_.AddNops(0x0042B0BF, 6); // Remove door being present for 5 frames
@@ -35,7 +20,7 @@ void DoorSkipTool::Init()
 	doorSkipPatch_.AddNops(0x0041CDE6, 5); // Remove sounds
 }
 
-void DoorSkipTool::UpdateUI()
+void OptionsTool::UpdateUI()
 {
 	if (ImGui::CollapsingHeader("Options"))
 	{
@@ -43,11 +28,11 @@ void DoorSkipTool::UpdateUI()
 		{
 			if (doorSkipEnabled_)
 			{
-				Enable();
+				doorSkipPatch_.Apply();
 			}
 			else
 			{
-				Disable();
+				doorSkipPatch_.Remove();
 			}
 		}
 	}

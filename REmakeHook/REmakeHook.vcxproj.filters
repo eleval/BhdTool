@@ -78,13 +78,13 @@
     <ClCompile Include="src\Tools\RoomJumpTool.cpp">
       <Filter>src\Tools</Filter>
     </ClCompile>
-    <ClCompile Include="src\Tools\DoorSkipTool.cpp">
-      <Filter>src\Tools</Filter>
-    </ClCompile>
     <ClCompile Include="src\Tools\InventoryTool.cpp">
       <Filter>src\Tools</Filter>
     </ClCompile>
     <ClCompile Include="src\Tools\SaveTool.cpp">
+      <Filter>src\Tools</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Tools\OptionsTool.cpp">
       <Filter>src\Tools</Filter>
     </ClCompile>
   </ItemGroup>
@@ -143,9 +143,6 @@
     <ClInclude Include="src\json11\json11.hpp">
       <Filter>src\json11</Filter>
     </ClInclude>
-    <ClInclude Include="src\Tools\DoorSkipTool.h">
-      <Filter>src\Tools</Filter>
-    </ClInclude>
     <ClInclude Include="src\Tools\RoomJumpTool.h">
       <Filter>src\Tools</Filter>
     </ClInclude>
@@ -159,6 +156,9 @@
       <Filter>src</Filter>
     </ClInclude>
     <ClInclude Include="src\Tools\SaveTool.h">
+      <Filter>src\Tools</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Tools\OptionsTool.h">
       <Filter>src\Tools</Filter>
     </ClInclude>
   </ItemGroup>

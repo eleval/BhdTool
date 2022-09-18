@@ -2,7 +2,7 @@
 
 #include "BhdTool.h"
 
-#include "Tools/DoorSkipTool.h"
+#include "Tools/OptionsTool.h"
 #include "Tools/InventoryTool.h"
 #include "Tools/RoomJumpTool.h"
 #include "Tools/SaveTool.h"
@@ -18,7 +18,7 @@ namespace
 
 void BhdTool::Init()
 {
-	DoorSkipTool::Init();
+	OptionsTool::Init();
 	RoomJumpTool::Init();
 	SaveTool::Init();
 }
@@ -31,7 +31,7 @@ void BhdTool::Update()
 		{
 			if (ImGui::Begin("BHD Tool", &isOpen_))
 			{
-				DoorSkipTool::UpdateUI();
+				OptionsTool::UpdateUI();
 				RoomJumpTool::UpdateUI();
 				InventoryTool::UpdateUI();
 				SaveTool::UpdateUI();

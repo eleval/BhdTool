@@ -47,8 +47,8 @@
     <ClCompile Include="src\pch.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
     </ClCompile>
-    <ClCompile Include="src\Tools\DoorSkipTool.cpp" />
     <ClCompile Include="src\Tools\InventoryTool.cpp" />
+    <ClCompile Include="src\Tools\OptionsTool.cpp" />
     <ClCompile Include="src\Tools\RoomJumpTool.cpp" />
     <ClCompile Include="src\Tools\SaveTool.cpp" />
     <ClCompile Include="src\Utils\CallHook.cpp" />
@@ -73,8 +73,8 @@
     <ClInclude Include="src\ImGui_Impl.h" />
     <ClInclude Include="src\json11\json11.hpp" />
     <ClInclude Include="src\pch.h" />
-    <ClInclude Include="src\Tools\DoorSkipTool.h" />
     <ClInclude Include="src\Tools\InventoryTool.h" />
+    <ClInclude Include="src\Tools\OptionsTool.h" />
     <ClInclude Include="src\Tools\RoomJumpTool.h" />
     <ClInclude Include="src\Tools\SaveTool.h" />
     <ClInclude Include="src\Utils\CallHook.h" />

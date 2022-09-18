@@ -1,6 +1,6 @@
 #pragma once
 
-namespace DoorSkipTool
+namespace OptionsTool
 {
 	void Init();
 	void UpdateUI();
