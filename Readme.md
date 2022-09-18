@@ -21,7 +21,7 @@ Simply paste the built dinput8.dll from any of the releases (or your own build) 
 
 To bring up the tool's UI, simply press F5 while ingame.
 
-You will also need a "rooms.json" files next to the ini file for room jumping tool to properly work. This file is provided with any of the releases. You can also generate it yourself using the python script provided in the "scripts" folder. However you will need to set up a few things before being able to run it like extracting the xfs filles of all the rooms. A better tool might get added in the future.
+You will also need a "rooms.json" files next to the dll file for room jumping tool to properly work. This file is provided with any of the releases. You can also generate it yourself using the python script provided in the "scripts" folder. However you will need to set up a few things before being able to run it like extracting the xfs filles of all the rooms. A better tool might get added in the future.
 
 Upon first use, the tool will generate a bhdtool.ini file when the game is closed, containing the tool's settings. If you wish to completely disable the tool without having to remove the dinput8.dll, simply set the "EnableBhdTool" field to 0 within it.
 
