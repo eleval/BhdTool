@@ -11,13 +11,18 @@
 
 #include "imgui/imgui.h"
 
+#include <string>
+
 namespace
 {
 	bool isOpen_ = false;
+	std::string headerText_;
 }
 
 void BhdTool::Init()
 {
+	headerText_ = std::string("BHD Tool ") + std::string(BuildVersion) + " by Eleval";
+
 	OptionsTool::Init();
 	RoomJumpTool::Init();
 	SaveTool::Init();
@@ -31,6 +36,7 @@ void BhdTool::Update()
 		{
 			if (ImGui::Begin("BHD Tool", &isOpen_))
 			{
+				ImGui::Text(headerText_.c_str());
 				OptionsTool::UpdateUI();
 				RoomJumpTool::UpdateUI();
 				InventoryTool::UpdateUI();
