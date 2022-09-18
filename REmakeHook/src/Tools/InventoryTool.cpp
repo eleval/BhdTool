@@ -3,6 +3,7 @@
 #include "Tools/InventoryTool.h"
 
 #include "Game/Items.h"
+#include "Hooks/Hooks.h"
 
 #include "imgui/imgui.h"
 
@@ -47,5 +48,10 @@ void InventoryTool::UpdateUI()
 				ImGui::InputInt(quantityLabel.c_str(), &inventory_->slots[i].quantity);
 			}
 		}
+	}
+
+	if (ImGui::Button("Try Save"))
+	{
+		Hooks::TrySave();
 	}
 }

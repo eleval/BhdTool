@@ -3,4 +3,5 @@
 namespace Hooks
 {
 	void InstallHooks();
+	void TrySave();
 }
