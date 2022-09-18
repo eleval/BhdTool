@@ -165,7 +165,7 @@
       <PrecompiledHeader>Use</PrecompiledHeader>
       <PrecompiledHeaderFile>pch.h</PrecompiledHeaderFile>
       <BasicRuntimeChecks>Default</BasicRuntimeChecks>
-      <SupportJustMyCode>false</SupportJustMyCode>
+      <SupportJustMyCode>true</SupportJustMyCode>
       <LanguageStandard>stdcpp17</LanguageStandard>
       <AdditionalIncludeDirectories>src/</AdditionalIncludeDirectories>
     </ClCompile>
