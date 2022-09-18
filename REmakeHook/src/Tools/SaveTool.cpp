@@ -84,6 +84,7 @@ void SaveTool::UpdateUI()
 {
 	if (ImGui::CollapsingHeader("Save Anywhere"))
 	{
+		ImGui::Text("NOTE : All saves using the tool done in other areas than regular save rooms will appear as \"Mansion Dining Room\".");
 		if (ImGui::Button("Open save menu"))
 		{
 			openSaveMenu_ = true;
