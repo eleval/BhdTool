@@ -5,4 +5,9 @@
     <LocalDebuggerWorkingDirectory>E:\Jeux\Steam\steamapps\common\Resident Evil Biohazard HD REMASTER</LocalDebuggerWorkingDirectory>
     <DebuggerFlavor>WindowsLocalDebugger</DebuggerFlavor>
   </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <LocalDebuggerCommand>E:\Jeux\Steam\steamapps\common\Resident Evil Biohazard HD REMASTER\bhd.exe</LocalDebuggerCommand>
+    <DebuggerFlavor>WindowsLocalDebugger</DebuggerFlavor>
+    <LocalDebuggerWorkingDirectory>E:\Jeux\Steam\steamapps\common\Resident Evil Biohazard HD REMASTER</LocalDebuggerWorkingDirectory>
+  </PropertyGroup>
 </Project>
