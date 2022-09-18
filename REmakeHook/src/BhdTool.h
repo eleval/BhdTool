@@ -4,4 +4,5 @@ namespace BhdTool
 {
 	void Init();
 	void Update();
+	void Toggle();
 }

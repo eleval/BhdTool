@@ -2,6 +2,7 @@
 
 #include "Hooks/WndProc.h"
 
+#include "BhdTool.h"
 #include "ImGui_Impl.h"
 
 #include "Utils/CallHook.h"
@@ -24,6 +25,16 @@ LRESULT CALLBACK hk_bhd_WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM l
 		case WM_ACTIVATEAPP:
 		case WM_NCACTIVATE:
 			return DefWindowProcW(hWnd, message, wParam, lParam);
+		case WM_KEYDOWN:
+			if (wParam == VK_F5)
+			{
+				BhdTool::Toggle();
+			}
+			else
+			{
+				return bhd_WndProc(hWnd, message, wParam, lParam);
+			}
+			break;
 		default:
 			// Do not prevent some system keys from doing anyhing
 			// TODO : Should have an option to toggle it on/off

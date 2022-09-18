@@ -27,13 +27,21 @@ void BhdTool::Update()
 {
 	if (ImGui_Impl::IsInitialized())
 	{
-		if (ImGui::Begin("BHD Tool"))
+		if (isOpen_)
 		{
-			DoorSkipTool::UpdateUI();
-			RoomJumpTool::UpdateUI();
-			InventoryTool::UpdateUI();
-			SaveTool::UpdateUI();
+			if (ImGui::Begin("BHD Tool", &isOpen_))
+			{
+				DoorSkipTool::UpdateUI();
+				RoomJumpTool::UpdateUI();
+				InventoryTool::UpdateUI();
+				SaveTool::UpdateUI();
+			}
+			ImGui::End();
 		}
-		ImGui::End();
 	}
+}
+
+void BhdTool::Toggle()
+{
+	isOpen_ = !isOpen_;
 }
