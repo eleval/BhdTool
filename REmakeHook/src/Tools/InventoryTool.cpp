@@ -33,6 +33,7 @@ void InventoryTool::UpdateUI()
 		SIZE_T bytesRead;
 		ReadProcessMemory(GetCurrentProcess(), (void*)0x00d7c9c0, &inventory_, sizeof(Inventory*), &bytesRead);
 
+		ImGui::Indent();
 		if (inventory_ != nullptr)
 		{
 			for (int i = 0; i < MaxInvSlots; ++i)
@@ -47,5 +48,6 @@ void InventoryTool::UpdateUI()
 				ImGui::InputInt(quantityLabel.c_str(), &inventory_->slots[i].quantity);
 			}
 		}
+		ImGui::Unindent();
 	}
 }

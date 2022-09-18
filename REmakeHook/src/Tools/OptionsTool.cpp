@@ -26,6 +26,7 @@ void OptionsTool::UpdateUI()
 {
 	if (ImGui::CollapsingHeader("Options"))
 	{
+		ImGui::Indent();
 		bool doorSkipEnabled = s_enabledDoorSkip.Get();
 		if (ImGui::Checkbox("Enable Door Skip", &doorSkipEnabled))
 		{
@@ -39,5 +40,6 @@ void OptionsTool::UpdateUI()
 				doorSkipPatch_.Remove();
 			}
 		}
+		ImGui::Unindent();
 	}
 }

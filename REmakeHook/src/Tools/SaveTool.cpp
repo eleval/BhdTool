@@ -84,11 +84,13 @@ void SaveTool::UpdateUI()
 {
 	if (ImGui::CollapsingHeader("Save Anywhere"))
 	{
+		ImGui::Indent();
 		ImGui::Text("NOTE : All saves using the tool done in other areas");
 		ImGui::Text("than regular save rooms will appear as \"Mansion Dining Room\".");
 		if (ImGui::Button("Open save menu"))
 		{
 			openSaveMenu_ = true;
 		}
+		ImGui::Unindent();
 	}
 }

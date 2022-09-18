@@ -165,6 +165,7 @@ void RoomJumpTool::UpdateUI()
 {
 	if (ImGui::CollapsingHeader("Room Jump"))
 	{
+		ImGui::Indent();
 		if (!rooms_.empty())
 		{
 			if (ImGui::BeginCombo("Room", rooms_[selectedRoom_].name.c_str()))
@@ -226,5 +227,6 @@ void RoomJumpTool::UpdateUI()
 				jumpRoom_ = true;
 			}
 		}
+		ImGui::Unindent();
 	}
 }
