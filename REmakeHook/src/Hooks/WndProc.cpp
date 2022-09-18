@@ -20,7 +20,7 @@ LRESULT CALLBACK hk_bhd_WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM l
 	switch (message)
 	{
 		// bhd does some shady things with these 3, which prevents keyboard events from being sent
-		// TODO : Investigate in details what is done
+		// TODO : Investigate in details what is done (things like turning off screensaver and sticky keys)
 		case WM_ACTIVATE:
 		case WM_ACTIVATEAPP:
 		case WM_NCACTIVATE:
@@ -30,29 +30,20 @@ LRESULT CALLBACK hk_bhd_WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM l
 			{
 				BhdTool::Toggle();
 			}
-			else
-			{
-				return bhd_WndProc(hWnd, message, wParam, lParam);
-			}
 			break;
-		default:
-			// Do not prevent some system keys from doing anyhing
-			// TODO : Should have an option to toggle it on/off
-			if (message > WM_COMMAND)
-			{
-				return DefWindowProcW(hWnd, message, wParam, lParam);
-			}
-			return bhd_WndProc(hWnd, message, wParam, lParam);
 	}
+
+	return bhd_WndProc(hWnd, message, wParam, lParam);
+
 }
 
 }
 
 void WndProc::InstallHook()
 {
-	CodePatch cp2;
+	// Patch RegisterClass parameters to use our WndProc instead of the game's
+	CodePatch cp;
 	uintptr_t wndProcAdd = (uintptr_t)(&hk_bhd_WndProc);
-	uint8_t* wndProcAdd8 = (uint8_t*)(&wndProcAdd);
-	cp2.AddCode(0x0085bc33, wndProcAdd);
-	cp2.Apply();
+	cp.AddCode(0x0085bc33, wndProcAdd);
+	cp.Apply();
 }
