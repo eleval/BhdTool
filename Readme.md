@@ -23,5 +23,8 @@ You will also need a "rooms.json" files next to the ini file for room jumping to
 
 Upon first use, the tool will generate a bhdtool.ini file when the game is closed, containing the tool's settings. If you wish to completely disable the tool without having to remove the dinput8.dll, simply set the "EnableBhdTool" field to 0 within it.
 
+## Contributing
+If you wish to request or add more features to the project (or fix bugs), do not hesitate to open issues and/or pull requests and I'll look at them when I can.
+
 ## License
-TODO
+This project is distributed under the GNU General Public License v3.0 (GNU GPLv3).
