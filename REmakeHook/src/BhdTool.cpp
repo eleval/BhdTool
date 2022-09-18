@@ -21,7 +21,7 @@ namespace
 
 void BhdTool::Init()
 {
-	headerText_ = std::string("BHD Tool ") + std::string(BuildVersion) + " by Eleval";
+	headerText_ = std::string("BHD Tool v") + std::string(BuildVersion) + " by Eleval (https://github.com/eleval/)";
 
 	OptionsTool::Init();
 	RoomJumpTool::Init();
