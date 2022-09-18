@@ -9,6 +9,7 @@
 namespace
 {
 	CodePatch doorSkipPatch_;
+	bool doorSkipEnabled_ = false;
 }
 
 namespace
@@ -36,16 +37,18 @@ void DoorSkipTool::Init()
 
 void DoorSkipTool::UpdateUI()
 {
-	static bool v = false;
-	if (ImGui::Checkbox("Enable Door Skip", &v))
+	if (ImGui::CollapsingHeader("Options"))
 	{
-		if (v)
+		if (ImGui::Checkbox("Enable Door Skip", &doorSkipEnabled_))
 		{
-			Enable();
-		}
-		else
-		{
-			Disable();
+			if (doorSkipEnabled_)
+			{
+				Enable();
+			}
+			else
+			{
+				Disable();
+			}
 		}
 	}
 }
