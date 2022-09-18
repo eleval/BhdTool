@@ -26,5 +26,10 @@ Upon first use, the tool will generate a bhdtool.ini file when the game is close
 ## Contributing
 If you wish to request or add more features to the project (or fix bugs), do not hesitate to open issues and/or pull requests and I'll look at them when I can.
 
+## List of planned features
+- Proper unicode support for settings file (currently only using ANSI functions, which is fine for most cases but settings file should be saved using Unicode version)
+- Various informations about the game (like character coords, ennemies, etc...)
+- And more...
+
 ## License
 This project is distributed under the GNU General Public License v3.0 (GNU GPLv3).
