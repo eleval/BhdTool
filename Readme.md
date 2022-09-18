@@ -32,7 +32,7 @@ If you wish to request or add more features to the project (or fix bugs), do not
 - And more...
 
 ## Donations
-If you feel generous and want to buy me a coffee or anything, here's a link to my Ko-Fi : ko-fi.com/eleval777
+If you feel generous and want to buy me a coffee or anything, here's a link to my Ko-Fi : https://ko-fi.com/eleval777
 
 ## License
 This project is distributed under the GNU General Public License v3.0 (GNU GPLv3).
