@@ -12,7 +12,7 @@ The goal of this tool is to offer utilities within the games, mainly aimed at he
 ## How to build
 This project was made using Visual Studio 2019 Community.
 
-So any version of Visual Studio 2019 or more recent should be more than enough to build the project.
+So any version of Visual Studio 2019 or more recent should be more than enough to build the project. You will need to edit the Post-Build step though as it copies the dll to a hardset path.
 
 There are two external dependencies to imgui & json11 but their files are included within the project, so you just need to clone this repository (with --recursive) and it should be just fine.
 
