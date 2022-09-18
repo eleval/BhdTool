@@ -1,7 +1,7 @@
 # BhdTool
 This is a tool I made for fun while learning some Reverse Engineering stuff
 
-The goal of this tool is to offer utilities within the games, mainly aimed at helping speedrunning practises.
+The goal of this tool is to offer utilities within the Resident Evil HD REmaster game, mainly aimed at helping speedrunning practises.
 
 ## Features
 - Ability to toggle Door Skip on & off at runtime.
