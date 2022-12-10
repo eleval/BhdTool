@@ -54,6 +54,7 @@ namespace
 	ImGui_ImplPlatformData pd_;
 
 	bool isInitialized_ = false;
+	bool hasFramedStarted_ = false;
 
 	std::chrono::high_resolution_clock::time_point lastFrameTime;
 }
@@ -354,6 +355,11 @@ void ImGui_Impl::ProcessEvent(UINT message, WPARAM wParam, LPARAM lParam)
 
 void ImGui_Impl::NewFrame()
 {
+	if (hasFramedStarted_)
+	{
+		EndFrame();
+	}
+
 	ImGuiIO& io = ImGui::GetIO();
 	const std::chrono::high_resolution_clock::time_point currentTime = std::chrono::high_resolution_clock::now();
 	const auto deltaTime = std::chrono::duration_cast<std::chrono::milliseconds>(currentTime - lastFrameTime);
@@ -388,10 +394,13 @@ void ImGui_Impl::NewFrame()
 	}
 
 	ImGui::NewFrame();
+
+	hasFramedStarted_ = true;
 }
 
 void ImGui_Impl::EndFrame()
 {
+	assert(hasFramedStarted_);
 	ImGui::EndFrame();
 }
 
