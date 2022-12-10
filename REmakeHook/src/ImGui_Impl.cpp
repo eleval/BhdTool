@@ -70,7 +70,7 @@ void CreateDeviceObjects(LPDIRECT3DDEVICE9 device)
 	int bpp;
 	io.Fonts->GetTexDataAsRGBA32(&pixels, &width, &height, &bpp);
 
-	device->CreateTexture(width, height, 1, D3DUSAGE_DYNAMIC, D3DFMT_A8R8G8B8, D3DPOOL_DEFAULT, &rd_.fontTexture, nullptr); // TODO : Check ret
+	device->CreateTexture(width, height, 1, 0, D3DFMT_A8R8G8B8, D3DPOOL_MANAGED, &rd_.fontTexture, nullptr); // TODO : Check ret
 	D3DLOCKED_RECT texRect;
 	rd_.fontTexture->LockRect(0, &texRect, nullptr, 0);
 	for (int y = 0; y < height; ++y)
@@ -408,14 +408,14 @@ void ImGui_Impl::Render()
 	{
 		if (rd_.vb) { rd_.vb->Release(); rd_.vb = NULL; }
 		rd_.vertexBufferSize = drawData->TotalVtxCount + 5000;
-		if (rd_.d3dDevice->CreateVertexBuffer(rd_.vertexBufferSize * sizeof(ImGuiVertex), D3DUSAGE_DYNAMIC | D3DUSAGE_WRITEONLY, D3DFVF_CUSTOMVERTEX, D3DPOOL_DEFAULT, &rd_.vb, NULL) < 0)
+		if (rd_.d3dDevice->CreateVertexBuffer(rd_.vertexBufferSize * sizeof(ImGuiVertex), D3DUSAGE_WRITEONLY, D3DFVF_CUSTOMVERTEX, D3DPOOL_MANAGED, &rd_.vb, NULL) < 0)
 			return;
 	}
 	if (!rd_.ib || rd_.indexBufferSize < drawData->TotalIdxCount)
 	{
 		if (rd_.ib) { rd_.ib->Release(); rd_.ib = NULL; }
 		rd_.indexBufferSize = drawData->TotalIdxCount + 10000;
-		if (rd_.d3dDevice->CreateIndexBuffer(rd_.indexBufferSize * sizeof(ImDrawIdx), D3DUSAGE_DYNAMIC | D3DUSAGE_WRITEONLY, sizeof(ImDrawIdx) == 2 ? D3DFMT_INDEX16 : D3DFMT_INDEX32, D3DPOOL_DEFAULT, &rd_.ib, NULL) < 0)
+		if (rd_.d3dDevice->CreateIndexBuffer(rd_.indexBufferSize * sizeof(ImDrawIdx), D3DUSAGE_WRITEONLY, sizeof(ImDrawIdx) == 2 ? D3DFMT_INDEX16 : D3DFMT_INDEX32, D3DPOOL_MANAGED, &rd_.ib, NULL) < 0)
 			return;
 	}
 
