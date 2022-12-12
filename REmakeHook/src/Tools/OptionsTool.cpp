@@ -20,6 +20,11 @@ void OptionsTool::Init()
 	doorSkipPatch_.AddNops(0x0042B0BF, 6); // Remove door being present for 5 frames
 	doorSkipPatch_.AddNops(0x0042AEC5, 6); // Remove beginning of animation
 	doorSkipPatch_.AddNops(0x0041CDE6, 5); // Remove sounds
+
+	if (s_enabledDoorSkip.Get())
+	{
+		doorSkipPatch_.Apply();
+	}
 }
 
 void OptionsTool::UpdateUI()
