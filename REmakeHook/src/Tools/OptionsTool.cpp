@@ -20,6 +20,7 @@ void OptionsTool::Init()
 	doorSkipPatch_.AddNops(0x0042B0BF, 6); // Remove door being present for 5 frames
 	doorSkipPatch_.AddNops(0x0042AEC5, 6); // Remove beginning of animation
 	doorSkipPatch_.AddNops(0x0041CDE6, 5); // Remove sounds
+	doorSkipPatch_.AddCode(0x00611a1A, { 0xFA }); // This changes the lab's elevator sound to be a non-looping one. Credits to FluffyQuack's DS mod for this change.
 
 	if (s_enabledDoorSkip.Get())
 	{
