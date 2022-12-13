@@ -27,11 +27,13 @@ int __fastcall hk_bhd_ExecuteTrigger(void* obj, void* edx, int param_1, int para
 	if (openSaveMenu_)
 	{
 		uint8_t* pVal = (uint8_t*)((uintptr_t)param_1 + 0x30);
+		const uint8_t oldVal = *pVal;
 		*pVal = 6;
 
 		instantTypeWriterMenuPatch_.Apply();
 		const int ret = bhd_ExecuteTrigger(obj, edx, param_1, param_2, param_3);;
 		instantTypeWriterMenuPatch_.Remove();
+		*pVal = oldVal;
 		return ret;
 	}
 
