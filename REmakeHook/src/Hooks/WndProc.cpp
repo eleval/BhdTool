@@ -6,6 +6,14 @@
 #include "ImGui_Impl.h"
 
 #include "Utils/CallHook.h"
+#include "Utils/TrampHook.h"
+
+#include <dinput.h>
+
+namespace
+{
+	TrampHook bhd_UpdateKeyboardInputHook_;
+}
 
 namespace
 {
@@ -19,22 +27,51 @@ LRESULT CALLBACK hk_bhd_WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM l
 
 	switch (message)
 	{
-		// bhd does some shady things with these 3, which prevents keyboard events from being sent
-		// TODO : Investigate in details what is done (things like turning off screensaver and sticky keys)
 		case WM_ACTIVATE:
 		case WM_ACTIVATEAPP:
 		case WM_NCACTIVATE:
-			return DefWindowProcW(hWnd, message, wParam, lParam);
-		case WM_KEYDOWN:
-			if (wParam == VK_F5)
+		{
+			if (BhdTool::IsOpen())
 			{
-				BhdTool::Toggle();
+				return DefWindowProcW(hWnd, message, wParam, lParam);
 			}
-			break;
+		} break;
 	}
 
 	return bhd_WndProc(hWnd, message, wParam, lParam);
+}
 
+void __fastcall hk_bhd_UpdateKeyboardInput(void* obj, void* edx, int param_1)
+{
+	using bhd_UpdateKeyboardInput = void(__fastcall*)(void*, void*, int);
+	bhd_UpdateKeyboardInput func = (bhd_UpdateKeyboardInput)bhd_UpdateKeyboardInputHook_.GetGateway();
+
+	static bool wasF5Pressed = false;
+	if (GetAsyncKeyState(VK_F5) & 0x8000)
+	{
+		if (!wasF5Pressed)
+		{
+			wasF5Pressed = true;
+			BhdTool::Toggle();
+			if (BhdTool::IsOpen())
+			{
+				LPDIRECTINPUTDEVICE8A dInputDevice = (LPDIRECTINPUTDEVICE8A)(*(size_t*)((uintptr_t)obj + 0xa08));
+				dInputDevice->Unacquire();
+				return;
+			}
+		}
+	}
+	else
+	{
+		wasF5Pressed = false;
+	}
+
+	if (BhdTool::IsOpen())
+	{
+		return;
+	}
+
+	func(obj, edx, param_1);
 }
 
 }
@@ -46,4 +83,7 @@ void WndProc::InstallHook()
 	uintptr_t wndProcAdd = (uintptr_t)(&hk_bhd_WndProc);
 	cp.AddCode(0x0085bc33, wndProcAdd);
 	cp.Apply();
+	
+	bhd_UpdateKeyboardInputHook_.Set((char*)0x007308b0, (char*)&hk_bhd_UpdateKeyboardInput, 6);
+	bhd_UpdateKeyboardInputHook_.Apply();
 }

@@ -51,3 +51,8 @@ void BhdTool::Toggle()
 {
 	isOpen_ = !isOpen_;
 }
+
+bool BhdTool::IsOpen()
+{
+	return isOpen_;
+}
