@@ -8,6 +8,8 @@
 #include "Utils/CallHook.h"
 #include "Utils/TrampHook.h"
 
+#include "imgui/imgui.h"
+
 #include <dinput.h>
 
 namespace
@@ -31,7 +33,7 @@ LRESULT CALLBACK hk_bhd_WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM l
 		case WM_ACTIVATEAPP:
 		case WM_NCACTIVATE:
 		{
-			if (BhdTool::IsOpen())
+			if (ImGui_Impl::IsInitialized() && ImGui::GetIO().WantCaptureKeyboard)
 			{
 				return DefWindowProcW(hWnd, message, wParam, lParam);
 			}
@@ -47,18 +49,13 @@ void __fastcall hk_bhd_UpdateKeyboardInput(void* obj, void* edx, int param_1)
 	bhd_UpdateKeyboardInput func = (bhd_UpdateKeyboardInput)bhd_UpdateKeyboardInputHook_.GetGateway();
 
 	static bool wasF5Pressed = false;
+	static bool isUnacquired = false;
 	if (GetAsyncKeyState(VK_F5) & 0x8000)
 	{
 		if (!wasF5Pressed)
 		{
 			wasF5Pressed = true;
 			BhdTool::Toggle();
-			if (BhdTool::IsOpen())
-			{
-				LPDIRECTINPUTDEVICE8A dInputDevice = (LPDIRECTINPUTDEVICE8A)(*(size_t*)((uintptr_t)obj + 0xa08));
-				dInputDevice->Unacquire();
-				return;
-			}
 		}
 	}
 	else
@@ -66,10 +63,17 @@ void __fastcall hk_bhd_UpdateKeyboardInput(void* obj, void* edx, int param_1)
 		wasF5Pressed = false;
 	}
 
-	if (BhdTool::IsOpen())
+	if (ImGui_Impl::IsInitialized() && ImGui::GetIO().WantCaptureKeyboard)
 	{
+		if (!isUnacquired)
+		{
+			LPDIRECTINPUTDEVICE8A dInputDevice = (LPDIRECTINPUTDEVICE8A)(*(size_t*)((uintptr_t)obj + 0xa08));
+			dInputDevice->Unacquire();
+			isUnacquired = true;
+		}
 		return;
 	}
+	isUnacquired = false;
 
 	func(obj, edx, param_1);
 }
