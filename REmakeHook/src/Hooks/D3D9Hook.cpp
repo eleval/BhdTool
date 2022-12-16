@@ -13,6 +13,7 @@
 #include "Utils/CodePatch.h"
 #include "Utils/TrampHook.h"
 
+#include <atomic>
 #include <d3d9.h>
 
 #include <string>
@@ -27,6 +28,7 @@ namespace
 	TrampHook presentHook_;
 
 	bool updateImGui_ = false;
+	std::atomic_bool shouldRenderImGui_ = false;
 }
 
 namespace
@@ -117,11 +119,12 @@ HRESULT APIENTRY hk_BeginScene(LPDIRECT3DDEVICE9 device)
 
 	if (ImGui_Impl::IsInitialized())
 	{
-		if (updateImGui_)
+		if (updateImGui_ && !shouldRenderImGui_)
 		{
 			ImGui_Impl::NewFrame();
 			//ImGui::ShowDemoWindow();
 			BhdTool::Update();
+			shouldRenderImGui_ = true;
 		}
 	}
 	return d3dBeginScene(device);
@@ -134,12 +137,13 @@ HRESULT APIENTRY hk_EndScene(LPDIRECT3DDEVICE9 device)
 
 	if (ImGui_Impl::IsInitialized())
 	{
-		if (updateImGui_)
+		if (updateImGui_ && shouldRenderImGui_)
 		{
 			ImGui_Impl::EndFrame();
 			ImGui::Render();
 			ImGui_Impl::Render();
 			updateImGui_ = false;
+			shouldRenderImGui_ = false;
 		}
 	}
 
