@@ -1,7 +1,7 @@
 #pragma once
 
 #define BHD_TOOL_VERSION_MAJOR 1
-#define BHD_TOOL_VERSION_MINOR 0
+#define BHD_TOOL_VERSION_MINOR 1
 
 #define STR_HELPER(x) #x
 #define STR(x) STR_HELPER(x)
