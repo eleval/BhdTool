@@ -2,6 +2,7 @@
 
 #include "Tools/SaveTool.h"
 
+#include "Utils/Memory.h"
 #include "Utils/TrampHook.h"
 
 #include "imgui/imgui.h"
@@ -33,7 +34,8 @@ int __fastcall hk_bhd_ExecuteTrigger(void* obj, void* edx, int param_1, int para
 		instantTypeWriterMenuPatch_.Apply();
 		const int ret = bhd_ExecuteTrigger(obj, edx, param_1, param_2, param_3);;
 		instantTypeWriterMenuPatch_.Remove();
-		*pVal = oldVal;
+		Mem::WriteMemory((size_t)pVal, oldVal);
+		
 		return ret;
 	}
 
