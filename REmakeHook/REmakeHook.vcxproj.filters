@@ -90,6 +90,9 @@
     <ClCompile Include="src\Settings.cpp">
       <Filter>src</Filter>
     </ClCompile>
+    <ClCompile Include="src\Utils\Memory.cpp">
+      <Filter>src\Utils</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\ImGui_Impl.h">
@@ -166,6 +169,9 @@
     </ClInclude>
     <ClInclude Include="src\Settings.h">
       <Filter>src</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Utils\Memory.h">
+      <Filter>src\Utils</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

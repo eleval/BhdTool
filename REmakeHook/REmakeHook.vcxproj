@@ -61,6 +61,7 @@
     <ClCompile Include="src\Tools\SaveTool.cpp" />
     <ClCompile Include="src\Utils\CallHook.cpp" />
     <ClCompile Include="src\Utils\CodePatch.cpp" />
+    <ClCompile Include="src\Utils\Memory.cpp" />
     <ClCompile Include="src\Utils\TrampHook.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -88,6 +89,7 @@
     <ClInclude Include="src\Tools\SaveTool.h" />
     <ClInclude Include="src\Utils\CallHook.h" />
     <ClInclude Include="src\Utils\CodePatch.h" />
+    <ClInclude Include="src\Utils\Memory.h" />
     <ClInclude Include="src\Utils\TrampHook.h" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
