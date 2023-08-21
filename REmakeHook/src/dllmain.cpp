@@ -51,12 +51,6 @@ void Init()
 	}
 
 	Settings::LoadSettings();
-
-	if (s_enableBhdTool.Get())
-	{
-		Hooks::InstallHooks();
-		BhdTool::Init();
-	}
 }
 
 BOOL APIENTRY DllMain( HMODULE hModule,
@@ -84,6 +78,12 @@ HMODULE DInput8DLL = nullptr;
 DINPUT8_API HRESULT WINAPI DirectInput8Create(HINSTANCE hinst, DWORD dwVersion, REFIID riidltf, LPVOID* ppvOut, LPUNKNOWN punkOuter)
 {
 	#pragma comment(linker, "/EXPORT:" __FUNCTION__ "=" __FUNCDNAME__)
+	
+	if (s_enableBhdTool.Get())
+	{
+		Hooks::InstallHooks();
+	}
+
 	if (OriginalFunction)
 	{
 		return OriginalFunction(hinst, dwVersion, riidltf, ppvOut, punkOuter);
