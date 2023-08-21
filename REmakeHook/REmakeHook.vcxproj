@@ -22,6 +22,7 @@
     <ClCompile Include="src\BhdTool.cpp" />
     <ClCompile Include="src\dllmain.cpp" />
     <ClCompile Include="src\Game\GameData.cpp" />
+    <ClCompile Include="src\Game\GameVersion.cpp" />
     <ClCompile Include="src\Hooks\D3D9Hook.cpp" />
     <ClCompile Include="src\Hooks\Hooks.cpp" />
     <ClCompile Include="src\Hooks\WndProc.cpp" />
@@ -67,6 +68,7 @@
   <ItemGroup>
     <ClInclude Include="src\BhdTool.h" />
     <ClInclude Include="src\Game\GameData.h" />
+    <ClInclude Include="src\Game\GameVersion.h" />
     <ClInclude Include="src\Game\Items.h" />
     <ClInclude Include="src\Game\TargetRoomData.h" />
     <ClInclude Include="src\Hooks\D3D9Hook.h" />
@@ -82,6 +84,7 @@
     <ClInclude Include="src\ImGui_Impl.h" />
     <ClInclude Include="src\json11\json11.hpp" />
     <ClInclude Include="src\pch.h" />
+    <ClInclude Include="src\picosha2\picosha2.h" />
     <ClInclude Include="src\Settings.h" />
     <ClInclude Include="src\Tools\InventoryTool.h" />
     <ClInclude Include="src\Tools\OptionsTool.h" />

@@ -22,6 +22,9 @@
     <Filter Include="src\Tools">
       <UniqueIdentifier>{1069b9f0-db61-4e83-8718-78fcd933abab}</UniqueIdentifier>
     </Filter>
+    <Filter Include="src\picosha2">
+      <UniqueIdentifier>{9c4d46e8-c37d-488b-9665-be7d40493cb0}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\dllmain.cpp">
@@ -92,6 +95,9 @@
     </ClCompile>
     <ClCompile Include="src\Utils\Memory.cpp">
       <Filter>src\Utils</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Game\GameVersion.cpp">
+      <Filter>src\Game</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -172,6 +178,12 @@
     </ClInclude>
     <ClInclude Include="src\Utils\Memory.h">
       <Filter>src\Utils</Filter>
+    </ClInclude>
+    <ClInclude Include="src\picosha2\picosha2.h">
+      <Filter>src\picosha2</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Game\GameVersion.h">
+      <Filter>src\Game</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

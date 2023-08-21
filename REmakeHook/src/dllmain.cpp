@@ -1,6 +1,7 @@
 // dllmain.cpp : Defines the entry point for the DLL application.
 #include "pch.h"
 
+#include "Game/GameVersion.h"
 #include "Hooks/Hooks.h"
 
 #include "BhdTool.h"
@@ -51,6 +52,35 @@ void Init()
 	}
 
 	Settings::LoadSettings();
+
+	if (s_enableBhdTool.Get())
+	{
+		const GameVersion gameVersion = GetGameVersion();
+		if (gameVersion == GameVersion::Unknown)
+		{
+			const int choice = MessageBoxA(nullptr,
+				"You're running a version of 'Resident Evil' that is not supported by BHD Tool.\n\n"
+				"What do you want to do?\n"
+				"- Abort = Close the game\n"
+				"- Retry = Start the game regardless\n"
+				"- Ignore = Disable BHD Tool and start the game\n",
+				"BHD Tool",
+				MB_ABORTRETRYIGNORE | MB_ICONWARNING | MB_APPLMODAL);
+
+			switch (choice)
+			{
+				case IDABORT:
+					TerminateProcess(GetCurrentProcess(), 0);
+					break;
+				case IDRETRY:
+					break;
+				case IDIGNORE:
+					s_enableBhdTool.Set(false);
+					Settings::SaveSettings();
+					break;
+			}
+		}
+	}
 }
 
 BOOL APIENTRY DllMain( HMODULE hModule,
