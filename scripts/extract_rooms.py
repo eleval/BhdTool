@@ -15,7 +15,7 @@ class DoorData():
 	page = 0
 	angle = 0
 
-	roomName = ""
+	roomNb = ""
 
 	def __init__(self, door):
 		for doorField in door:
@@ -37,7 +37,7 @@ class DoorData():
 			elif fieldName == "mAngY":
 				self.angle = degrees(float(doorField.get("value")))
 		
-		self.roomName = str(self.stage) + "{:02x}".format(self.room)
+		self.roomNb = str(self.stage) + "{:02x}".format(self.room)
 
 	def toJSON(self):
 		return {
@@ -49,23 +49,34 @@ class DoorData():
 			"page" : self.page
 			}
 
+class RoomData():
+	displayName = ""
+	doors = []
 
-class DoorDataEncoder(json.JSONEncoder):
+	def __init__(self, displayName):
+		self.displayName = displayName
+		self.doors = []
+
+	def toJSON(self):
+		return {
+			"displayName" : self.displayName,
+			"doors" : self.doors
+			}
+
+class DataEncoder(json.JSONEncoder):
 	def default(self, obj):
-		if isinstance(obj, DoorData):
+		if isinstance(obj, RoomData) or isinstance(obj, DoorData):
 			return obj.toJSON()
 		return json.JSONEncoder.default(self, obj)
-
-
 
 rooms = {}
 
 roomFolders = os.listdir("ext")
 
-for roomName in roomFolders:
-	roomFolder = os.path.join("ext", roomName)
+for roomNb in roomFolders:
+	roomFolder = os.path.join("ext", roomNb)
 	if os.path.isdir(roomFolder):
-		doorFile = os.path.join(roomFolder, "room", "adr", roomName + ".adr.xml")
+		doorFile = os.path.join(roomFolder, "room", "adr", roomNb + ".adr.xml")
 		if os.path.isfile(doorFile):
 			tree = ET.parse(doorFile)
 			root = tree.getroot()
@@ -73,19 +84,11 @@ for roomName in roomFolders:
 				for door in arrays.findall("classref"):
 					if door.get("type") == "96093989":
 							d = DoorData(door)
-							if d.roomName not in rooms:
-								rooms[d.roomName] = []
-							rooms[d.roomName].append(d)
+							if d.roomNb not in rooms:
+								rooms[d.roomNb] = RoomData(d.roomNb)
+							rooms[d.roomNb].doors.append(d)
 
 
 
 with open("rooms.json", "w") as f:
-	f.write(json.dumps(rooms, cls=DoorDataEncoder, indent=4))
-
-# with open("rooms.json", "w") as f:
-# 	f.write('"rooms": {\n')
-# 	for room in rooms:
-# 		f.write('"{}": {\n'.format(room))
-# 		
-# 		f.write('}\n')
-# 	f.write('}\n')
+	f.write(json.dumps(rooms, cls=DataEncoder, indent=4))

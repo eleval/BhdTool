@@ -131,9 +131,9 @@ void RoomJumpTool::Init()
 	for (const auto& roomJson : roomsJson.object_items())
 	{
 		Room room;
-		room.name = roomJson.first;
 		sscanf_s(roomJson.first.c_str(), "%x", &room.roomNb);
-		for (const auto& jumpPointJson : roomJson.second.array_items())
+		room.name = roomJson.second["displayName"].string_value();
+		for (const auto& jumpPointJson : roomJson.second["doors"].array_items())
 		{
 			RoomJumpPoint jumpPoint;
 			jumpPoint.x = static_cast<float>(jumpPointJson["x"].number_value());
