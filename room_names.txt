@@ -1,0 +1,118 @@
+100: Mansion 1F - Medical Storage Room
+101: Mansion - West Wing Inner Stairway
+102: Mansion 1F - Small Storeroom
+103: Mansion 1F - Northern Corridor & Tea Room
+105: Mansion 1F - Dinning Room
+106: Mansion - Main Hall
+107: Mansion 1F - Art Room
+108: Mansion 1F - 'L' Corridor
+109: Mansion 1F - Winding Corridor
+10a: Mansion 1F - Dark Corridor
+10b: Mansion 1F - Graveyard
+10c: Mansion 1F - Greenhouse
+10d: Mansion 1F - Tiger Statue Room
+10e: Mansion 1F - Researcher's Bedroom
+10f: Mansion 1F - Bar
+111: Mansion 1F - Large Art & Mirror Rooms
+112: Mansion - West Wing Outer Stairway
+114: Mansion 1F - Outside Boiler
+115: Mansion 1F - Marble Room
+116: Mansion 1F - Living Room
+117: Mansion 1F - Large Gallery
+118: Mansion 1F - East Wing Storeroom
+119: Mansion 1F - Courtyard Study
+11a: Mansion 1F - Roofed Passage
+11b: Mansion 1F - Garden Shed
+11c: Mansion 1F - Hidden Wardrobe
+200: Mansion - Kitchen Elevator
+202: Mansion 2F - Dinning Room
+203: Mansion 2F - Outside Balcony
+204: Mansion 2F - 'C' Corridor
+205: Mansion 2F - Armor Room
+206: Mansion 2F - Small Library
+207: Mansion - East Wing Stairway
+208: Mansion 2F - Deer Room
+209: Mansion 2F - Bedroom
+20a: Mansion 2F - Fish Tank Room
+20b: Mansion 2F - Resting Room
+20c: Mansion 2F - Sliding Trap Room
+20d: Mansion 2F - Pillar Room
+20e: Mansion 2F - Attic Entry
+20f: Mansion 2F - Small Dinning Room
+210: Mansion 2F - Attic
+212: Mansion 2F - Outside Patio
+213: Mansion 2F - Elevator Corridor
+214: Mansion 2F - Mirror Corridor
+215: Mansion 2F - Trophy Room
+216: Mansion 2F - Library
+217: Mansion 2F - 'Death' Passage
+219: Mansion 2F - Materials Room
+21a: Mansion B1 - Concrete Passage 1
+21b: Mansion B1 - Concrete Passage 2
+21c: Mansion B1 - Kitchen
+300: Courtyard 1F - Main Garden
+301: Courtyard 1F - Water Pool
+302: Courtyard - Falls Area
+303: Heliport
+304: Courtyard 1F - Zigzag Path
+305: Courtyard 1F - Fountain
+306: Courtyard B1 - Underground Statue Room
+307: Courtyard B1 - Entrance Passage
+308: Courtyard B1 - Forked Passage
+309: Courtyard B1 - Generator Room
+30a: Courtyard B1 - Enrico Room
+30b: Courtyard B1 - Boulder Passage 1
+30c: Courtyard B1 - Spider Room
+30d: Courtyard B1 - Straight Passage
+30f: Courtyard B1 - Boulder Passage 2
+311: Courtyard 1F - Muddy Path
+312: Courtyard 1F - Small Headstone Area
+313: Courtyard 1F - Forest Pathway
+314: Courtyard 1F - Cabin
+315: Altar - Jessica's Tomb
+316: Courtyard B2 - Garbage Compactor Room
+317: Courtyard B2 - Winding Underground
+318: Courtyard B2 - Underground Storage Room
+319: Courtyard B2 - Lisa's Room
+31a: Altar - Stairway Passage
+400: Residence 1F - Entry Corridor
+401: Residence 1F - Room 001
+402: Residence 1F - Room 001 Bathroom
+403: Residence 1F - Storeroom
+404: Residence 1F - Rec Room
+405: Residence 1F - Central Corridor
+406: Residence 1F - Room 002
+407: Residence 1F - Room 002 Bathroom
+408: Residence 1F - Gallery
+409: Residence 1F - Medical Room
+40a: Residence 1F - Room 003
+40b: Residence 1F - Room 003 Bathroom
+40c: Residence 1F - Plant 42 Room
+40d: Residence B1 - Aqua Ring Entry
+40e: Residence B1 - Aqua Ring Walkway
+40f: Residence B1 - Guard Room
+410: Residence B2 - Aqua Ring Storage
+411: Residence B2 - Control Room
+412: Residence B2 - Aqua Ring Water Tank
+500: Laboratory B1 - Entrance
+501: Laboratory B1 - Passage to Heliport
+502: Laboratory B2 - Item Box Room
+503: Laboratory B2 - Stairway
+504: Laboratory B2 - Visual Data Room
+505: Laboratory B3 - 'O' Room
+506: Laboratory B3 - Operating Room
+507: Laboratory B3 - Morgue
+508: Laboratory B3 - Pass Code Corridor
+509: Laboratory B3 - X-Ray Room B
+50a: Laboratory B3 - X-Ray Room A
+50b: Laborartory B3 - Cell Entrance
+50c: Laboratory B3 - Elevator Entry
+50d: Heliport Elevator
+50e: Laboratory B3 - Lounge Room
+50f: Laboratory B3 - Power Maze A
+510: Laboratory B3 - Power Maze B
+511: Laboratory B3 - Power Control Room
+512: Laboratory B3 - Cell
+513: Laboratory B4 - Main Laboratory
+514: Laboratory B4 - Main Laboratory Entrance
+515: Laboratory - Elevator to Main Laboratory

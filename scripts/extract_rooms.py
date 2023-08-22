@@ -73,6 +73,14 @@ rooms = {}
 
 roomFolders = os.listdir("ext")
 
+roomNames = {}
+
+with open("room_names.txt") as f:
+	lines = f.readlines()
+	for line in lines:
+		lineContents = line.split(':')
+		roomNames[lineContents[0]] = lineContents[1].strip()
+
 for roomNb in roomFolders:
 	roomFolder = os.path.join("ext", roomNb)
 	if os.path.isdir(roomFolder):
@@ -85,10 +93,10 @@ for roomNb in roomFolders:
 					if door.get("type") == "96093989":
 							d = DoorData(door)
 							if d.roomNb not in rooms:
-								rooms[d.roomNb] = RoomData(d.roomNb)
+								rooms[d.roomNb] = RoomData(roomNames[d.roomNb])
 							rooms[d.roomNb].doors.append(d)
 
-
+sortedRooms = dict(sorted(rooms.items()))
 
 with open("rooms.json", "w") as f:
-	f.write(json.dumps(rooms, cls=DataEncoder, indent=4))
+	f.write(json.dumps(sortedRooms, cls=DataEncoder, indent=4))
