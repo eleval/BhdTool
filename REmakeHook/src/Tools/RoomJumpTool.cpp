@@ -147,6 +147,11 @@ void RoomJumpTool::Init()
 		rooms_.push_back(room);
 	}
 
+	std::sort(rooms_.begin(), rooms_.end(), [](const Room& a, const Room& b)
+	{
+		return a.name.compare(b.name) < 0;
+	});
+
 	/*FunctionHook hook3;
 	hook3.Set(0x0041e06a, &hk_bhd_FetchDoorRoomData);
 	hook3.Apply();*/
