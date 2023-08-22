@@ -48,7 +48,7 @@ void __fastcall hk_bhd_0x00768480(int param)
 	{
 		D3D9Hook::FindD3D9DeviceAndInstallHooks();
 		BhdTool::Init();
-		WndProc::InstallHook();
+		WndProc::InstallHooks();
 
 		// Game shutdown hook
 		bhd_00859a30_hook.Set((char*)0x00859a30, (char*)&hk_bhd_00859a30, 9);

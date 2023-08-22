@@ -5,6 +5,7 @@
 #include "BhdTool.h"
 #include "ImGui_Impl.h"
 
+#include "Game/GameData.h"
 #include "Utils/CallHook.h"
 #include "Utils/TrampHook.h"
 
@@ -80,14 +81,10 @@ void __fastcall hk_bhd_UpdateKeyboardInput(void* obj, void* edx, int param_1)
 
 }
 
-void WndProc::InstallHook()
+void WndProc::InstallHooks()
 {
-	// Patch RegisterClass parameters to use our WndProc instead of the game's
-	CodePatch cp;
-	uintptr_t wndProcAdd = (uintptr_t)(&hk_bhd_WndProc);
-	cp.AddCode(0x0085bc33, wndProcAdd);
-	cp.Apply();
-	
+	SetWindowLongPtr(g_gpd.hwnd, GWL_WNDPROC, (LONG_PTR)&hk_bhd_WndProc);
+
 	bhd_UpdateKeyboardInputHook_.Set((char*)0x007308b0, (char*)&hk_bhd_UpdateKeyboardInput, 6);
 	bhd_UpdateKeyboardInputHook_.Apply();
 }
