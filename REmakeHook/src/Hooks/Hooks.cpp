@@ -27,16 +27,6 @@ namespace
 namespace
 {
 
-// This function is called post engine init
-void hk_bhd_0x00666ac0()
-{
-	using bhd_0x0666ac0 = void (*)();
-	bhd_0x0666ac0 func = reinterpret_cast<bhd_0x0666ac0>(0x00666ac0);
-	func();
-
-	D3D9Hook::FindD3D9DeviceAndInstallHooks();
-}
-
 // Called when the game is freeing resources
 void __fastcall hk_bhd_00859a30(void* param_1)
 {
@@ -65,7 +55,6 @@ void __fastcall hk_bhd_0x00768480(int param)
 		bhd_00859a30_hook.Apply();
 
 		installedHooks_ = true;
-		return;
 	}
 
 	// This is done in in this update function because we need to wait for at least one BeginScene to get the D3D9Device
