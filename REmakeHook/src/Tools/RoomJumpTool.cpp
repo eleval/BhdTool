@@ -21,6 +21,8 @@ namespace
 		float angle;
 		uint32_t cut;
 		uint32_t page;
+		uint32_t targetRoomNb;
+		std::string name;
 	};
 
 	struct Room
@@ -142,6 +144,8 @@ void RoomJumpTool::Init()
 			jumpPoint.angle = static_cast<float>(jumpPointJson["angle"].number_value());
 			jumpPoint.cut = jumpPointJson["cut"].int_value();
 			jumpPoint.page = jumpPointJson["page"].int_value();
+			const std::string& targetRoomNbStr = jumpPointJson["targetRoomNb"].string_value();
+			sscanf_s(targetRoomNbStr.c_str(), "%x", &jumpPoint.targetRoomNb);
 			room.jumpPoints.push_back(jumpPoint);
 		}
 		rooms_.push_back(room);
@@ -151,6 +155,21 @@ void RoomJumpTool::Init()
 	{
 		return a.name.compare(b.name) < 0;
 	});
+
+	for (Room& room : rooms_)
+	{
+		for (RoomJumpPoint& jumpPoint : room.jumpPoints)
+		{
+			auto it = std::find_if(rooms_.begin(), rooms_.end(), [&jumpPoint](const Room& a)
+			{
+				return a.roomNb == jumpPoint.targetRoomNb;
+			});
+			if (it != rooms_.end())
+			{
+				jumpPoint.name = it->name;
+			}
+		}
+	}
 
 	/*FunctionHook hook3;
 	hook3.Set(0x0041e06a, &hk_bhd_FetchDoorRoomData);
@@ -194,7 +213,7 @@ void RoomJumpTool::UpdateUI()
 				{
 					ImGui::SameLine();
 				}
-				if (ImGui::RadioButton(std::to_string(i).c_str(), i == selectedJumpPoint_))
+				if (ImGui::RadioButton(room.jumpPoints[i].name.c_str(), i == selectedJumpPoint_))
 				{
 					selectedJumpPoint_ = i;
 				}

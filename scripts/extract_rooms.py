@@ -16,8 +16,9 @@ class DoorData():
 	angle = 0
 
 	roomNb = ""
+	targetRoomNb = ""
 
-	def __init__(self, door):
+	def __init__(self, door, targetRoomNb):
 		for doorField in door:
 			fieldName = doorField.get("name")
 			if fieldName == "mPos":
@@ -36,6 +37,8 @@ class DoorData():
 				self.page = int(doorField.get("value"))
 			elif fieldName == "mAngY":
 				self.angle = degrees(float(doorField.get("value")))
+
+			self.targetRoomNb = targetRoomNb
 		
 		self.roomNb = str(self.stage) + "{:02x}".format(self.room)
 
@@ -46,7 +49,8 @@ class DoorData():
 			"z" : self.z,
 			"angle" : self.angle,
 			"cut" : self.cut,
-			"page" : self.page
+			"page" : self.page,
+			"targetRoomNb" : self.targetRoomNb
 			}
 
 class RoomData():
@@ -81,17 +85,18 @@ with open("room_names.txt") as f:
 		lineContents = line.split(':')
 		roomNames[lineContents[0]] = lineContents[1].strip()
 
-for roomNb in roomFolders:
-	roomFolder = os.path.join("ext", roomNb)
+for roomName in roomFolders:
+	roomNb = roomName.replace("r", "")
+	roomFolder = os.path.join("ext", roomName)
 	if os.path.isdir(roomFolder):
-		doorFile = os.path.join(roomFolder, "room", "adr", roomNb + ".adr.xml")
+		doorFile = os.path.join(roomFolder, "room", "adr", roomName + ".adr.xml")
 		if os.path.isfile(doorFile):
 			tree = ET.parse(doorFile)
 			root = tree.getroot()
 			for arrays in root.findall("array"):
 				for door in arrays.findall("classref"):
 					if door.get("type") == "96093989":
-							d = DoorData(door)
+							d = DoorData(door, roomNb)
 							if d.roomNb not in rooms:
 								rooms[d.roomNb] = RoomData(roomNames[d.roomNb])
 							rooms[d.roomNb].doors.append(d)
