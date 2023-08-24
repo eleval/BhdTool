@@ -56,6 +56,7 @@
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Create</PrecompiledHeader>
     </ClCompile>
     <ClCompile Include="src\Settings.cpp" />
+    <ClCompile Include="src\Tools\CheatTool.cpp" />
     <ClCompile Include="src\Tools\InventoryTool.cpp" />
     <ClCompile Include="src\Tools\OptionsTool.cpp" />
     <ClCompile Include="src\Tools\RoomJumpTool.cpp" />
@@ -86,6 +87,7 @@
     <ClInclude Include="src\pch.h" />
     <ClInclude Include="src\picosha2\picosha2.h" />
     <ClInclude Include="src\Settings.h" />
+    <ClInclude Include="src\Tools\CheatTool.h" />
     <ClInclude Include="src\Tools\InventoryTool.h" />
     <ClInclude Include="src\Tools\OptionsTool.h" />
     <ClInclude Include="src\Tools\RoomJumpTool.h" />

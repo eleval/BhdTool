@@ -2,6 +2,7 @@
 
 #include "BhdTool.h"
 
+#include "Tools/CheatTool.h"
 #include "Tools/OptionsTool.h"
 #include "Tools/InventoryTool.h"
 #include "Tools/RoomJumpTool.h"
@@ -26,6 +27,7 @@ void BhdTool::Init()
 	OptionsTool::Init();
 	RoomJumpTool::Init();
 	SaveTool::Init();
+	CheatTool::Init();
 }
 
 void BhdTool::Update()
@@ -41,6 +43,7 @@ void BhdTool::Update()
 				RoomJumpTool::UpdateUI();
 				InventoryTool::UpdateUI();
 				SaveTool::UpdateUI();
+				CheatTool::UpdateUI();
 			}
 			ImGui::End();
 		}

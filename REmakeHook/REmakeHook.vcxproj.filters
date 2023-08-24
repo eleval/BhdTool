@@ -99,6 +99,9 @@
     <ClCompile Include="src\Game\GameVersion.cpp">
       <Filter>src\Game</Filter>
     </ClCompile>
+    <ClCompile Include="src\Tools\CheatTool.cpp">
+      <Filter>src\Tools</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\ImGui_Impl.h">
@@ -184,6 +187,9 @@
     </ClInclude>
     <ClInclude Include="src\Game\GameVersion.h">
       <Filter>src\Game</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Tools\CheatTool.h">
+      <Filter>src\Tools</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
