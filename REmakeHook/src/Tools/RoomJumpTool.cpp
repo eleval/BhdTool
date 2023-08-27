@@ -117,8 +117,8 @@ void RoomJumpTool::Init()
 
 
 	std::string jsonStr;
-	FILE* jsonFile = fopen("rooms.json", "rb");
-	if (jsonFile != nullptr)
+	FILE* jsonFile = nullptr;
+	if (fopen_s(&jsonFile, "rooms.json", "rb") == 0)
 	{
 		fseek(jsonFile, 0, SEEK_END);
 		const size_t jsonFileSize = ftell(jsonFile);

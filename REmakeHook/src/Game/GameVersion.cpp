@@ -25,8 +25,8 @@ GameVersion GetGameVersion()
 	wchar_t buffer[MAX_PATH] = { 0 };
 	GetModuleFileNameW(nullptr, buffer, MAX_PATH);
 
-	FILE* file = _wfopen(buffer, L"rb");
-	if (file == nullptr)
+	FILE* file = nullptr;
+	if (_wfopen_s(&file, buffer, L"rb") != 0)
 		return GameVersion::Unknown;
 	
 	fseek(file, 0, SEEK_END);

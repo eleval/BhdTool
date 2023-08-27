@@ -105,7 +105,8 @@ inline void Setting<std::string>::LoadInternal(const wchar_t* iniFileName, const
 	wValue.resize(255);
 	const DWORD size = GetPrivateProfileStringW(category, name_.c_str(), wDefaultVal.c_str(), wValue.data(), wValue.size(), iniFileName);
 	wValue.resize(size);
-	val_.assign(wValue.begin(), wValue.end());
+	val_.resize(size);
+	WideCharToMultiByte(CP_UTF8, 0, wValue.c_str(), -1, val_.data(), size, nullptr, nullptr);
 }
 
 template<>
