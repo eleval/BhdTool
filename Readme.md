@@ -8,6 +8,7 @@ The goal of this tool is to offer utilities within the Resident Evil HD REmaster
 - Tool to jump to any room in the game
 - Inventory editor
 - Save anywhere tool
+- Various cheats
 
 ## How to build
 This project was made using Visual Studio 2019 Community.
@@ -29,7 +30,6 @@ Upon first use, the tool will generate a bhdtool.ini file when the game is close
 If you wish to request or add more features to the project (or fix bugs), do not hesitate to open issues and/or pull requests and I'll look at them when I can.
 
 ## List of planned features
-- Proper unicode support for settings file (currently only using ANSI functions, which is fine for most cases but settings file should be saved using Unicode version)
 - Various informations about the game (like character coords, enemies, etc...)
 - Controller support
 - Flag editor (Save/Kill Barry, Mansion Part 1 & 2, etc...)
