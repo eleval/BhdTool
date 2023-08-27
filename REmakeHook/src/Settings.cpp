@@ -6,10 +6,10 @@
 
 namespace
 {
-	constexpr const char* SettingsFileName = "bhdtool.ini";
-	constexpr const char* DefaultSettingsCategory = "Settings";
+	constexpr const wchar_t* SettingsFileName = L"bhdtool.ini";
+	constexpr const wchar_t* DefaultSettingsCategory = L"Settings";
 
-	std::string settingsFilePath_;
+	std::wstring settingsFilePath_;
 
 	// Got to do this because of static initialization order
 	std::vector<SettingBase*>& GetSettings()
@@ -22,22 +22,22 @@ namespace
 }
 
 SettingBase::SettingBase(const std::string& name) :
-	name_(name)
+	name_(name.begin(), name.end())
 {
 	GetSettings().push_back(this);
 }
 
 void Settings::LoadSettings()
 {
-	char buffer[MAX_PATH] = { 0 };
-	GetModuleFileNameA(NULL, buffer, MAX_PATH);
-	std::string modulePath = buffer;
-	const auto pos = modulePath.find_last_of("\\/");
-	if (pos != std::string::npos)
+	wchar_t buffer[MAX_PATH] = { 0 };
+	GetModuleFileNameW(NULL, buffer, MAX_PATH);
+	std::wstring modulePath = buffer;
+	const auto pos = modulePath.find_last_of(L"\\/");
+	if (pos != std::wstring::npos)
 	{
 		modulePath = modulePath.substr(0, pos);
 	}
-	settingsFilePath_ = modulePath + "\\" + std::string(SettingsFileName);
+	settingsFilePath_ = modulePath + L"\\" + std::wstring(SettingsFileName);
 
 	for (SettingBase* setting : settings_)
 	{

@@ -8,11 +8,11 @@ class SettingBase
 public:
 	SettingBase(const std::string& name);
 
-	virtual void Load(const char* iniFileName, const char* category) = 0;
-	virtual void Save(const char* iniFileName, const char* category) = 0;
+	virtual void Load(const wchar_t* iniFileName, const wchar_t* category) = 0;
+	virtual void Save(const wchar_t* iniFileName, const wchar_t* category) = 0;
 
 protected:
-	std::string name_;
+	std::wstring name_;
 };
 
 template<typename T>
@@ -43,19 +43,19 @@ public:
 		val_ = defaultVal_;
 	}
 
-	inline void Load(const char* iniFileName, const char* category) override
+	inline void Load(const wchar_t* iniFileName, const wchar_t* category) override
 	{
 		LoadInternal(iniFileName, category);
 	}
 
-	inline void Save(const char* iniFileName, const char* category) override
+	inline void Save(const wchar_t* iniFileName, const wchar_t* category) override
 	{
 		SaveInternal(iniFileName, category);
 	}
 
 private:
-	inline void LoadInternal(const char* iniFileName, const char* category);
-	inline void SaveInternal(const char* iniFileName, const char* category);
+	inline void LoadInternal(const wchar_t* iniFileName, const wchar_t* category);
+	inline void SaveInternal(const wchar_t* iniFileName, const wchar_t* category);
 
 private:
 	const T defaultVal_;
@@ -63,55 +63,61 @@ private:
 };
 
 template<typename T>
-inline void Setting<T>::LoadInternal(const char* iniFileName, const char* category)
+inline void Setting<T>::LoadInternal(const wchar_t* iniFileName, const wchar_t* category)
 {
 }
 
 template<typename T>
-inline void Setting<T>::SaveInternal(const char* iniFileName, const char* category)
+inline void Setting<T>::SaveInternal(const wchar_t* iniFileName, const wchar_t* category)
 {
 }
 
 template<>
-inline void Setting<bool>::LoadInternal(const char* iniFileName, const char* category)
+inline void Setting<bool>::LoadInternal(const wchar_t* iniFileName, const wchar_t* category)
 {
-	val_ = GetPrivateProfileIntA(category, name_.c_str(), defaultVal_ ? 1 : 0, iniFileName) == 1;
+	val_ = GetPrivateProfileIntW(category, name_.c_str(), defaultVal_ ? 1 : 0, iniFileName) == 1;
 }
 
 template<>
-inline void Setting<bool>::SaveInternal(const char* iniFileName, const char* category)
+inline void Setting<bool>::SaveInternal(const wchar_t* iniFileName, const wchar_t* category)
 {
-	WritePrivateProfileStringA(category, name_.c_str(), std::to_string(val_ ? 1 : 0).c_str(), iniFileName);
+	WritePrivateProfileStringW(category, name_.c_str(), std::to_wstring(val_ ? 1 : 0).c_str(), iniFileName);
 }
 
 template<>
-inline void Setting<int>::LoadInternal(const char* iniFileName, const char* category)
+inline void Setting<int>::LoadInternal(const wchar_t* iniFileName, const wchar_t* category)
 {
-	val_ = GetPrivateProfileIntA(category, name_.c_str(), defaultVal_, iniFileName);
+	val_ = GetPrivateProfileIntW(category, name_.c_str(), defaultVal_, iniFileName);
 }
 
 template<>
-inline void Setting<int>::SaveInternal(const char* iniFileName, const char* category)
+inline void Setting<int>::SaveInternal(const wchar_t* iniFileName, const wchar_t* category)
 {
-	WritePrivateProfileStringA(category, name_.c_str(), std::to_string(val_).c_str(), iniFileName);
+	WritePrivateProfileStringW(category, name_.c_str(), std::to_wstring(val_).c_str(), iniFileName);
 }
 
 template<>
-inline void Setting<std::string>::LoadInternal(const char* iniFileName, const char* category)
+inline void Setting<std::string>::LoadInternal(const wchar_t* iniFileName, const wchar_t* category)
 {
-	val_.resize(255);
-	const DWORD size = GetPrivateProfileStringA(category, name_.c_str(), defaultVal_.c_str(), val_.data(), val_.size(), iniFileName);
-	val_.resize(size);
+	std::wstring wDefaultVal;
+	wDefaultVal.assign(defaultVal_.begin(), defaultVal_.end());
+	std::wstring wValue;
+	wValue.resize(255);
+	const DWORD size = GetPrivateProfileStringW(category, name_.c_str(), wDefaultVal.c_str(), wValue.data(), wValue.size(), iniFileName);
+	wValue.resize(size);
+	val_.assign(wValue.begin(), wValue.end());
 }
 
 template<>
-inline void Setting<std::string>::SaveInternal(const char* iniFileName, const char* category)
+inline void Setting<std::string>::SaveInternal(const wchar_t* iniFileName, const wchar_t* category)
 {
-	WritePrivateProfileStringA(category, name_.c_str(), val_.c_str(), iniFileName);
+	std::wstring wValue;
+	wValue.assign(val_.begin(), val_.end());
+	WritePrivateProfileStringW(category, name_.c_str(), wValue.c_str(), iniFileName);
 }
 
 namespace Settings
 {
-void LoadSettings();
-void SaveSettings();
+	void LoadSettings();
+	void SaveSettings();
 }

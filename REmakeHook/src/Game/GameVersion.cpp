@@ -22,10 +22,10 @@ namespace
 GameVersion GetGameVersion()
 {
 	// Check game's executable SHA256
-	char buffer[MAX_PATH] = { 0 };
-	GetModuleFileNameA(NULL, buffer, MAX_PATH);
+	wchar_t buffer[MAX_PATH] = { 0 };
+	GetModuleFileNameW(nullptr, buffer, MAX_PATH);
 
-	FILE* file = fopen(buffer, "rb");
+	FILE* file = _wfopen(buffer, L"rb");
 	if (file == nullptr)
 		return GameVersion::Unknown;
 	
@@ -44,7 +44,7 @@ GameVersion GetGameVersion()
 	hasher.get_hash_bytes(hash.begin(), hash.end());
 
 	const std::string fileSha256 = picosha2::get_hash_hex_string(hasher);
-	for (int i = 0; i < GameVersionHashes.size(); ++i)
+	for (int i = 0; i < static_cast<int>(GameVersionHashes.size()); ++i)
 	{
 		if (GameVersionHashes[i] == fileSha256)
 			return static_cast<GameVersion>(i);

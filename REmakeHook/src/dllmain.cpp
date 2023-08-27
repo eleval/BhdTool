@@ -42,10 +42,10 @@ extern "C"
 void Init()
 {
 	// Load the original dinput8.dll from the system directory
-	char DInputDllName[MAX_PATH];
-	GetSystemDirectoryA(DInputDllName, MAX_PATH);
-	strcat_s(DInputDllName, "\\dinput8.dll");
-	DInput8DLL = LoadLibraryA(DInputDllName);
+	wchar_t DInputDllName[MAX_PATH];
+	GetSystemDirectoryW(DInputDllName, MAX_PATH);
+	wcscat_s(DInputDllName, MAX_PATH, L"\\dinput8.dll");
+	DInput8DLL = LoadLibraryW(DInputDllName);
 	if (DInput8DLL > (HMODULE)31)
 	{
 		OriginalFunction = (DirectInput8Create_t)GetProcAddress(DInput8DLL, "DirectInput8Create");
@@ -58,13 +58,13 @@ void Init()
 		const GameVersion gameVersion = GetGameVersion();
 		if (gameVersion == GameVersion::Unknown)
 		{
-			const int choice = MessageBoxA(nullptr,
-				"You're running a version of 'Resident Evil' that is not supported by BHD Tool.\n\n"
-				"What do you want to do?\n"
-				"- Abort = Close the game\n"
-				"- Retry = Start the game regardless\n"
-				"- Ignore = Disable BHD Tool and start the game\n",
-				"BHD Tool",
+			const int choice = MessageBoxW(nullptr,
+				L"You're running a version of 'Resident Evil' that is not supported by BHD Tool.\n\n"
+				L"What do you want to do?\n"
+				L"- Abort = Close the game\n"
+				L"- Retry = Start the game regardless\n"
+				L"- Ignore = Disable BHD Tool and start the game\n",
+				L"BHD Tool",
 				MB_ABORTRETRYIGNORE | MB_ICONWARNING | MB_APPLMODAL);
 
 			switch (choice)
