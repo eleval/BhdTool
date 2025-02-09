@@ -5,6 +5,7 @@
 #include "BhdTool.h"
 #include "ImGui_Impl.h"
 
+#include "Game/GameAddress.h"
 #include "Game/GameData.h"
 #include "Utils/CallHook.h"
 #include "Utils/TrampHook.h"
@@ -24,7 +25,7 @@ namespace
 LRESULT CALLBACK hk_bhd_WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 {
 	using bhd_WndProc_t = LRESULT(CALLBACK*)(HWND, UINT, WPARAM, LPARAM);
-	bhd_WndProc_t bhd_WndProc = (bhd_WndProc_t)0x00859b00;
+	bhd_WndProc_t bhd_WndProc = (bhd_WndProc_t)GameAddresses[GAID_WND_PROC];
 
 	ImGui_Impl::ProcessEvent(message, wParam, lParam);
 
@@ -85,6 +86,6 @@ void WndProc::InstallHooks()
 {
 	SetWindowLongPtr(g_gpd.hwnd, GWL_WNDPROC, (LONG_PTR)&hk_bhd_WndProc);
 
-	bhd_UpdateKeyboardInputHook_.Set((char*)0x007308b0, (char*)&hk_bhd_UpdateKeyboardInput, 6);
+	bhd_UpdateKeyboardInputHook_.Set((char*)GameAddresses[GAID_UPDATE_KEYBOARD_INPUT], (char*)&hk_bhd_UpdateKeyboardInput, 6);
 	bhd_UpdateKeyboardInputHook_.Apply();
 }

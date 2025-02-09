@@ -1,5 +1,6 @@
 #include "pch.h"
 
+#include "Game/GameAddress.h"
 #include "Tools/CheatTool.h"
 #include "Utils/CodePatch.h"
 
@@ -16,8 +17,8 @@ namespace
 
 void CheatTool::Init()
 {
-	infiniteAmmoPatch_.AddNops(0x0065f804, 6);
-	infiniteHealthPatch_.AddNops(0x0050f4c2, 6);
+	infiniteAmmoPatch_.AddNops(GameAddresses[GAID_CHEAT_INFINITE_AMMO], 6);
+	infiniteHealthPatch_.AddNops(GameAddresses[GAID_CHEAT_INFINITE_HEALTH], 6);
 }
 
 void CheatTool::UpdateUI()

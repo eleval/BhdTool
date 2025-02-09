@@ -6,6 +6,7 @@
 #include "ImGui_Impl.h"
 #include "Settings.h"
 
+#include "Game/GameAddress.h"
 #include "Game/GameData.h"
 
 #include "Hooks/D3D9Hook.h"
@@ -16,6 +17,7 @@
 #include "Utils/Memory.h"
 #include "Utils/TrampHook.h"
 
+#include <cassert>
 #include <thread>
 
 namespace
@@ -51,7 +53,7 @@ void __fastcall hk_bhd_0x00768480(int param)
 		WndProc::InstallHooks();
 
 		// Game shutdown hook
-		bhd_00859a30_hook.Set((char*)0x00859a30, (char*)&hk_bhd_00859a30, 9);
+		bhd_00859a30_hook.Set((char*)GameAddresses[GAID_GAME_SHUTDOWN], (char*)&hk_bhd_00859a30, 9);
 		bhd_00859a30_hook.Apply();
 
 		installedHooks_ = true;
@@ -64,7 +66,7 @@ void __fastcall hk_bhd_0x00768480(int param)
 		ImGui_Impl::Init();
 	}
 
-	void* funcPtr = (void*)0x00768480;
+	void* funcPtr = (void*)GameAddresses[GAID_LATE_GAME_UPDATE_RET];
 	__asm
 	{
 		mov ecx, param
@@ -79,6 +81,6 @@ void Hooks::InstallHooks()
 	CallHook hook;
 	
 	// Late game update loop hook
-	hook.Set(0x0085b1e4, &hk_bhd_0x00768480);
+	hook.Set(GameAddresses[GAID_LATE_GAME_UPDATE], &hk_bhd_0x00768480);
 	hook.Apply();
 }

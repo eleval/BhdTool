@@ -5,6 +5,7 @@
 #include "BhdTool.h"
 #include "ImGui_Impl.h"
 
+#include "Game/GameAddress.h"
 #include "Game/GameData.h"
 
 #include "imgui/imgui.h"
@@ -175,7 +176,7 @@ void D3D9Hook::FindD3D9DeviceAndInstallHooks()
 {
 	if (GetD3D9Device(d3d9Device_, sizeof(d3d9Device_)))
 	{
-		preRenderHook_.Set((char*)0x00767260, (char*)&hk_bhd_0x00767260, 6);
+		preRenderHook_.Set((char*)GameAddresses[GAID_PRE_RENDER], (char*)&hk_bhd_0x00767260, 6);
 		preRenderHook_.Apply();
 
 		beginSceneHook_.Set((char*)d3d9Device_[41], (char*)&hk_BeginScene, 7);

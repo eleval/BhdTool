@@ -1,6 +1,7 @@
 // dllmain.cpp : Defines the entry point for the DLL application.
 #include "pch.h"
 
+#include "Game/GameAddress.h"
 #include "Game/GameVersion.h"
 #include "Hooks/Hooks.h"
 
@@ -80,6 +81,8 @@ void Init()
 					break;
 			}
 		}
+
+		InitGameAddresses(gameVersion);
 	}
 }
 

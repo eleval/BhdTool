@@ -1,5 +1,6 @@
 #include "pch.h"
 
+#include "Game/GameAddress.h"
 #include "Tools/InventoryTool.h"
 
 #include "Game/Items.h"
@@ -31,7 +32,7 @@ void InventoryTool::UpdateUI()
 	if (ImGui::CollapsingHeader("Inventory"))
 	{
 		SIZE_T bytesRead;
-		ReadProcessMemory(GetCurrentProcess(), (void*)0x00d7c9c0, &inventory_, sizeof(Inventory*), &bytesRead);
+		ReadProcessMemory(GetCurrentProcess(), (void*)GameAddresses[GAID_INVENTORY], &inventory_, sizeof(Inventory*), &bytesRead);
 
 		ImGui::Indent();
 		if (inventory_ != nullptr)

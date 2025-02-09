@@ -2,6 +2,7 @@
 
 #include "Tools/RoomJumpTool.h"
 
+#include "Game/GameAddress.h"
 #include "Game/TargetRoomData.h"
 #include "Utils/TrampHook.h"
 
@@ -96,23 +97,24 @@ int __fastcall hk_bhd_CheckForTriggers(void* obj, void* edx, int param_1, uint32
 
 void RoomJumpTool::Init()
 {
-	checkForTriggersHook_.Set((char*)0x0041dc40, (char*)&hk_bhd_CheckForTriggers, 9);
+	checkForTriggersHook_.Set((char*)GameAddresses[GAID_CHECK_FOR_TRIGGERS], (char*)&hk_bhd_CheckForTriggers, 9);
 	checkForTriggersHook_.Apply();
 	checkForTriggers_ = (bhd_CheckForTriggers)checkForTriggersHook_.GetGateway();
 
 	uintptr_t funcAdd = (uintptr_t)(&hk_bhd_FetchDoorRoomData);
-	funcAdd = funcAdd - 0x0041e34A - 5;
+	funcAdd = funcAdd - GameAddresses[GAID_FETCH_DOOR_ROOM_DATA_OFFSET] - 5;
 	uint8_t* funcAdd8 = (uint8_t*)(&funcAdd);
 
+	const size_t codeAddress = GameAddresses[GAID_FETCH_DOOR_ROOM_DATA];
 	CodePatch cp;
-	cp.AddCode(0x0041e340, { 0x8b, 0x44, 0x24, 0x08 });
-	cp.AddCode(0x0041e344, { 0x8b, 0x4c, 0x24, 0x04 });
-	cp.AddCode(0x0041e348, { 0x50 });
-	cp.AddCode(0x0041e349, { 0x51 });
-	cp.AddCode(0x0041e34A, { 0xE8, funcAdd8[0], funcAdd8[1], funcAdd8[2], funcAdd8[3] });
-	cp.AddCode(0x0041e34F, { 0x83, 0xC4, 0x08 });
-	cp.AddCode(0x0041e352, { 0xC2, 0x08, 0x00 });
-	cp.AddCode(0x0041e355, { 0x90 });
+	cp.AddCode(codeAddress, { 0x8b, 0x44, 0x24, 0x08 });
+	cp.AddCode(codeAddress + 0x4, { 0x8b, 0x4c, 0x24, 0x04 });
+	cp.AddCode(codeAddress + 0x8, { 0x50 });
+	cp.AddCode(codeAddress + 0x9, { 0x51 });
+	cp.AddCode(codeAddress + 0xA, { 0xE8, funcAdd8[0], funcAdd8[1], funcAdd8[2], funcAdd8[3] });
+	cp.AddCode(codeAddress + 0xF, { 0x83, 0xC4, 0x08 });
+	cp.AddCode(codeAddress + 0x12, { 0xC2, 0x08, 0x00 });
+	cp.AddCode(codeAddress + 0x15, { 0x90 });
 	cp.Apply();
 
 

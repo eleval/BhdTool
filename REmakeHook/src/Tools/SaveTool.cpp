@@ -1,5 +1,6 @@
 #include "pch.h"
 
+#include "Game/GameAddress.h"
 #include "Tools/SaveTool.h"
 
 #include "Utils/Memory.h"
@@ -52,7 +53,7 @@ int __fastcall hk_bhd_0041fd70(void* obj, void* edx, int param_1)
 		int uVar6 = 0;
 		int iVar3 = *(int*)(*(int*)((uintptr_t)obj + 0xe0) + uVar6 * 4);
 
-		bhd_ExecuteTrigger_t bhd_ExecuteTrigger = (bhd_ExecuteTrigger_t)0x00409ae0;
+		bhd_ExecuteTrigger_t bhd_ExecuteTrigger = (bhd_ExecuteTrigger_t)GameAddresses[GAID_EXECUTE_TRIGGER];
 		bhd_ExecuteTrigger(obj, edx, iVar3, uVar6, 0);
 
 		openSaveMenu_ = false;
@@ -70,17 +71,18 @@ void SaveTool::Init()
 	// Adding nops to skip a call showing the text but not skipping a push before it
 	// This somehow shows the save menu without corrupting the stack?
 	// Anyway, it works, so GG? xD
-	instantTypeWriterMenuPatch_.AddNops(0x00409c81, 2);
-	instantTypeWriterMenuPatch_.AddNops(0x00409c85, 5);
+	const size_t instantTypeWriterMenuPatchAddress = GameAddresses[GAID_INSTANT_TYPE_WRITER_MENU];
+	instantTypeWriterMenuPatch_.AddNops(instantTypeWriterMenuPatchAddress, 2);
+	instantTypeWriterMenuPatch_.AddNops(instantTypeWriterMenuPatchAddress + 0x4, 5);
 
-	bhd_ExecuteTrigger_hook.Set((char*)0x00409ae0, (char*)&hk_bhd_ExecuteTrigger, 6);
+	bhd_ExecuteTrigger_hook.Set((char*)GameAddresses[GAID_EXECUTE_TRIGGER], (char*)&hk_bhd_ExecuteTrigger, 6);
 	bhd_ExecuteTrigger_hook.Apply();
 
-	bhd_0041fd70_hook.Set((char*)0x0041fd70, (char*)&hk_bhd_0041fd70, 9);
+	bhd_0041fd70_hook.Set((char*)GameAddresses[GAID_0041FD70], (char*)&hk_bhd_0041fd70, 9);
 	bhd_0041fd70_hook.Apply();
 
 	// Prevents saves from any rooms from showing as "No Data" (will show as Mansion Dining Room instead)
-	invalidSaveFixPatch_.AddCode(0x004304be, { 0xB9, 0x1, 0x0, 0x0, 0x0 });
+	invalidSaveFixPatch_.AddCode(GameAddresses[GAID_INVALID_SAVE_FIX], { 0xB9, 0x1, 0x0, 0x0, 0x0 });
 	invalidSaveFixPatch_.Apply();
 }
 
