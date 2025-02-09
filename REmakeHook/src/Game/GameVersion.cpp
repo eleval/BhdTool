@@ -12,9 +12,11 @@ namespace
 {
 	constexpr const std::array GameVersionHashes =
 	{
-		"0ab61bada34783a684490858e2005bbd2e9a1b1353eaaad44337bf7abb773b72",	// V_20_10_18
-		"d18cdf473c01afbd90ce1df0c3f3bb4a3d6c4ebfe4d792a035894c63a2790f8f",	// V_17_08_23
-		"0cb0dc1d2f8d9b2e56de380c39dab3ed93fba10fc063a85e0c5b0623f1869345"	// V_17_08_23_Steamless
+		"0ab61bada34783a684490858e2005bbd2e9a1b1353eaaad44337bf7abb773b72",	// V_3831846201811674141
+		"d18cdf473c01afbd90ce1df0c3f3bb4a3d6c4ebfe4d792a035894c63a2790f8f",	// V_7029559557684186662
+		"0cb0dc1d2f8d9b2e56de380c39dab3ed93fba10fc063a85e0c5b0623f1869345",	// V_7029559557684186662_Steamless
+		"1f4b8b17a34e65a518508e00002fdb02c5c72fadbb8bc778045d66bbfb8ce28a", // V_9087090834863155228
+		"6f060443b0ef58bbf79bbe5f3b13ea9664f3fbd5ead3728d65bcac32f6a82baf", // V_9087090834863155228_Steamless
 	};
 	static_assert(GameVersionHashes.size() == static_cast<int>(GameVersion::Unknown));
 }
@@ -49,6 +51,12 @@ GameVersion GetGameVersion()
 		if (GameVersionHashes[i] == fileSha256)
 			return static_cast<GameVersion>(i);
 	}
+
+#ifdef _DEBUG
+	OutputDebugStringA("Unknown game version : ");
+	OutputDebugStringA(fileSha256.c_str());
+	OutputDebugStringA("\n");
+#endif
 
 	return GameVersion::Unknown;
 }

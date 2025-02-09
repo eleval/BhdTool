@@ -13,6 +13,8 @@ void InitGameAddresses(GameVersion gameVersion)
 		case GameVersion::V_3831846201811674141:
 		case GameVersion::V_7029559557684186662:
 		case GameVersion::V_7029559557684186662_Steamless:
+		case GameVersion::V_9087090834863155228:
+		case GameVersion::V_9087090834863155228_Steamless:
 		{
 			GameAddresses[GAID_LATE_GAME_UPDATE] = 0x0085b1e4;
 			GameAddresses[GAID_LATE_GAME_UPDATE_RET] = 0x00768480;
