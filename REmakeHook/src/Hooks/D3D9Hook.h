@@ -2,5 +2,8 @@
 
 namespace D3D9Hook
 {
-	void FindD3D9DeviceAndInstallHooks();
+	void InstallD3D9DeviceCaptureHook();
+	void RemoveD3D9DeviceCaptureHook();
+	void InstallHooks();
+	bool HasFoundD3D9Device();
 }

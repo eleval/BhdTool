@@ -22,11 +22,18 @@
 namespace
 {
 	HWND window_ = nullptr;
+	uintptr_t d3d9DeviceVTableAddr_ = 0;
+	uintptr_t* pD3D9DeviceVTableAddr_ = &d3d9DeviceVTableAddr_;
+
+	uintptr_t captureJmpBackAddr_ = 0;
+
 	void* d3d9Device_[119];
 	TrampHook preRenderHook_;
 	TrampHook beginSceneHook_;
 	TrampHook endSceneHook_;
 	TrampHook presentHook_;
+
+	CodePatch captureDeviceHook_;
 
 	bool updateImGui_ = false;
 	std::atomic_bool shouldRenderImGui_ = false;
@@ -34,79 +41,6 @@ namespace
 
 namespace
 {
-
-BOOL CALLBACK EnumWindowsCallback(HWND handle, LPARAM lParam)
-{
-	DWORD wndProcId;
-	GetWindowThreadProcessId(handle, &wndProcId);
-
-	if (GetCurrentProcessId() != wndProcId)
-		return TRUE; // skip to next window
-
-	RECT rect;
-	if (!GetWindowRect(handle, &rect))
-	{
-		return TRUE;
-	}
-
-	if (rect.left == 0xffffffff)
-	{
-		return TRUE;
-	}
-
-	window_ = handle;
-	return FALSE; // window found abort search
-}
-
-HWND GetProcessWindow()
-{
-	window_ = NULL;
-	EnumWindows(EnumWindowsCallback, NULL);
-	return window_;
-}
-
-bool GetD3D9Device(void** pTable, size_t Size)
-{
-	if (!pTable)
-		return false;
-
-	IDirect3D9* pD3D = Direct3DCreate9(D3D_SDK_VERSION);
-
-	if (!pD3D)
-		return false;
-
-	IDirect3DDevice9* pDummyDevice = NULL;
-
-	// options to create dummy device
-	D3DPRESENT_PARAMETERS d3dpp = {};
-	d3dpp.Windowed = true;
-	d3dpp.SwapEffect = D3DSWAPEFFECT_DISCARD;
-	d3dpp.hDeviceWindow = GetProcessWindow();
-
-	g_gpd.hwnd = d3dpp.hDeviceWindow;
-
-	HRESULT dummyDeviceCreated = pD3D->CreateDevice(D3DADAPTER_DEFAULT, D3DDEVTYPE_HAL, d3dpp.hDeviceWindow, D3DCREATE_SOFTWARE_VERTEXPROCESSING, &d3dpp, &pDummyDevice);
-
-	if (dummyDeviceCreated != S_OK)
-	{
-		// may fail in windowed fullscreen mode, trying again with windowed mode
-		d3dpp.Windowed = !d3dpp.Windowed;
-
-		dummyDeviceCreated = pD3D->CreateDevice(D3DADAPTER_DEFAULT, D3DDEVTYPE_HAL, d3dpp.hDeviceWindow, D3DCREATE_SOFTWARE_VERTEXPROCESSING, &d3dpp, &pDummyDevice);
-
-		if (dummyDeviceCreated != S_OK)
-		{
-			pD3D->Release();
-			return false;
-		}
-	}
-
-	memcpy(pTable, *reinterpret_cast<void***>(pDummyDevice), Size);
-
-	pDummyDevice->Release();
-	pD3D->Release();
-	return true;
-}
 
 HRESULT APIENTRY hk_BeginScene(LPDIRECT3DDEVICE9 device)
 {
@@ -170,32 +104,58 @@ void __fastcall hk_bhd_0x00767260(void* obj, void* edx, int param_1)
 	func(obj, edx, param_1);
 }
 
+__declspec(naked) void hk_CaptureD3D9Device()
+{
+	__asm
+	{
+		push eax
+		mov eax, pD3D9DeviceVTableAddr_
+		mov dword ptr [eax], ecx
+		pop eax
+
+		push 0x0
+		push 0x0
+		push eax
+		jmp [captureJmpBackAddr_]
+	}
 }
 
-void D3D9Hook::FindD3D9DeviceAndInstallHooks()
+}
+
+
+void D3D9Hook::InstallD3D9DeviceCaptureHook()
 {
-	if (GetD3D9Device(d3d9Device_, sizeof(d3d9Device_)))
-	{
-		preRenderHook_.Set((char*)GameAddresses[GAID_PRE_RENDER], (char*)&hk_bhd_0x00767260, 6);
-		preRenderHook_.Apply();
+	captureJmpBackAddr_ = GameAddresses[GAID_CAPTURE_DEVICE_JMP_BACK];
 
-		beginSceneHook_.Set((char*)d3d9Device_[41], (char*)&hk_BeginScene, 7);
-		beginSceneHook_.Apply();
-		endSceneHook_.Set((char*)d3d9Device_[42], (char*)&hk_EndScene, 7);
-		endSceneHook_.Apply();
+	uint8_t* funcAddr = (uint8_t*)&hk_CaptureD3D9Device;
+	uint8_t* src = (uint8_t*)GameAddresses[GAID_CAPTURE_DEVICE_JMP];
 
-		// Hard to hook on Present has the Steam overlay already does this
-		// Check https://www.unknowncheats.me/forum/general-programming-and-reversing/116896-hooking-renderers-via-steam-overlay.html
-		/*if (*(uint8_t*)(d3d9Device_[17]) == 0xE9)
-		{
-			uintptr_t address = (uintptr_t)(d3d9Device_[17]);
-			address += 5;
-			presentHook_.Set((char*)address, (char*)&hk_Present, 6);
-		}
-		else
-		{
-			presentHook_.Set((char*)d3d9Device_[17], (char*)&hk_Present, 5);
-		}
-		presentHook_.Apply();*/
-	}
+	uint8_t hookRelAdd[4];
+	*(uintptr_t*)(hookRelAdd) = (uintptr_t)(funcAddr - src - 5);
+
+	captureDeviceHook_.AddCode(GameAddresses[GAID_CAPTURE_DEVICE_JMP], { 0xE9, hookRelAdd[0], hookRelAdd[1], hookRelAdd[2], hookRelAdd[3] });
+	captureDeviceHook_.Apply();
+}
+
+void D3D9Hook::RemoveD3D9DeviceCaptureHook()
+{
+	captureDeviceHook_.Remove();
+}
+
+void D3D9Hook::InstallHooks()
+{
+	memcpy(d3d9Device_, (void*)d3d9DeviceVTableAddr_, sizeof(d3d9Device_));
+
+	preRenderHook_.Set((char*)GameAddresses[GAID_PRE_RENDER], (char*)&hk_bhd_0x00767260, 6);
+	preRenderHook_.Apply();
+
+	beginSceneHook_.Set((char*)d3d9Device_[41], (char*)&hk_BeginScene, 7);
+	beginSceneHook_.Apply();
+	endSceneHook_.Set((char*)d3d9Device_[42], (char*)&hk_EndScene, 7);
+	endSceneHook_.Apply();
+}
+
+bool D3D9Hook::HasFoundD3D9Device()
+{
+	return d3d9DeviceVTableAddr_ != 0;
 }

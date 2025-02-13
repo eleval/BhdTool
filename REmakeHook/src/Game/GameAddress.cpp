@@ -24,6 +24,8 @@ void InitGameAddresses(GameVersion gameVersion)
 			GameAddresses[GAID_WND_PROC] = 0x00859b00;
 			GameAddresses[GAID_UPDATE_KEYBOARD_INPUT] = 0x007308b0;
 
+			GameAddresses[GAID_CAPTURE_DEVICE_JMP] = 0x0076b677;
+			GameAddresses[GAID_CAPTURE_DEVICE_JMP_BACK] = 0x0076b67c;
 			GameAddresses[GAID_PRE_RENDER] = 0x00767260;
 
 			GameAddresses[GAID_CHECK_FOR_TRIGGERS] = 0x0041dc40;

@@ -24,6 +24,9 @@ namespace
 {
 	TrampHook bhd_00859a30_hook;
 	bool installedHooks_ = false;
+
+	uintptr_t devicePtr = 0;
+	uintptr_t* pDevicePtr = &devicePtr;
 }
 
 namespace
@@ -48,15 +51,19 @@ void __fastcall hk_bhd_0x00768480(int param)
 	// We can't do it when the process starts anymore since the game's executable is encrypted by Steam's DRM
 	if (!installedHooks_)
 	{
-		D3D9Hook::FindD3D9DeviceAndInstallHooks();
-		BhdTool::Init();
-		WndProc::InstallHooks();
+		if (D3D9Hook::HasFoundD3D9Device())
+		{
+			D3D9Hook::RemoveD3D9DeviceCaptureHook();
+			D3D9Hook::InstallHooks();
+			BhdTool::Init();
+			WndProc::InstallHooks();
 
-		// Game shutdown hook
-		bhd_00859a30_hook.Set((char*)GameAddresses[GAID_GAME_SHUTDOWN], (char*)&hk_bhd_00859a30, 9);
-		bhd_00859a30_hook.Apply();
+			// Game shutdown hook
+			bhd_00859a30_hook.Set((char*)GameAddresses[GAID_GAME_SHUTDOWN], (char*)&hk_bhd_00859a30, 9);
+			bhd_00859a30_hook.Apply();
 
-		installedHooks_ = true;
+			installedHooks_ = true;
+		}
 	}
 
 	// This is done in in this update function because we need to wait for at least one BeginScene to get the D3D9Device
@@ -74,6 +81,7 @@ void __fastcall hk_bhd_0x00768480(int param)
 	}
 }
 
+
 }
 
 void Hooks::InstallHooks()
@@ -83,4 +91,6 @@ void Hooks::InstallHooks()
 	// Late game update loop hook
 	hook.Set(GameAddresses[GAID_LATE_GAME_UPDATE], &hk_bhd_0x00768480);
 	hook.Apply();
+
+	D3D9Hook::InstallD3D9DeviceCaptureHook();
 }

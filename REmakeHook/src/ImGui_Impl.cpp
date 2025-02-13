@@ -369,7 +369,22 @@ void ImGui_Impl::NewFrame()
 	// Setup display size (every frame to accommodate for window resizing)
 	RECT rect = { 0, 0, 0, 0 };
 	::GetClientRect(pd_.hwnd, &rect);
-	io.DisplaySize = ImVec2((float)(rect.right - rect.left), (float)(rect.bottom - rect.top));
+	if (rect.left == 0 || rect.top == 0 || rect.right == 0 ||  rect.bottom == 0)
+	{
+		IDirect3DSwapChain9* swapChain = nullptr;
+		if (SUCCEEDED(rd_.d3dDevice->GetSwapChain(0, 	&swapChain)))
+		{
+			D3DDISPLAYMODE displayMode;
+			if (SUCCEEDED(swapChain->GetDisplayMode(&displayMode)))
+			{
+				io.DisplaySize = { (float)displayMode.Width, (float)displayMode.Height };
+			}
+		}
+	}
+	else
+	{
+		io.DisplaySize = ImVec2((float)(rect.right - rect.left), (float)(rect.bottom - rect.top));
+	}
 
 	// Setup time step
 	/*INT64 currentTime = 0;
