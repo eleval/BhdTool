@@ -137,7 +137,7 @@ void D3D9Hook::InstallD3D9DeviceCaptureHook()
 	captureDeviceHook_.Apply();
 }
 
-void D3D9Hook::RemoveD3D9DeviceCaptureHook()
+void D3D9Hook::RemoveD3D9DeviceVTableCaptureHook()
 {
 	captureDeviceHook_.Remove();
 }
@@ -155,7 +155,12 @@ void D3D9Hook::InstallHooks()
 	endSceneHook_.Apply();
 }
 
-bool D3D9Hook::HasFoundD3D9Device()
+bool D3D9Hook::HasFoundD3D9DeviceVTable()
 {
 	return d3d9DeviceVTableAddr_ != 0;
+}
+
+bool D3D9Hook::HasFoundD3D9Device()
+{
+	return g_gpd.d3dDevice != nullptr;
 }

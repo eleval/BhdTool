@@ -23,6 +23,7 @@
 namespace
 {
 	TrampHook bhd_00859a30_hook;
+	bool installedD3D9Hooks_ = false;
 	bool installedHooks_ = false;
 
 	uintptr_t devicePtr = 0;
@@ -49,12 +50,30 @@ void __fastcall hk_bhd_0x00768480(int param)
 {
 	// Initialize all our hooks here since it's the safest place to do so.
 	// We can't do it when the process starts anymore since the game's executable is encrypted by Steam's DRM
-	if (!installedHooks_)
+	if (!installedD3D9Hooks_)
+	{
+		if (D3D9Hook::HasFoundD3D9DeviceVTable())
+		{
+			D3D9Hook::RemoveD3D9DeviceVTableCaptureHook();
+			D3D9Hook::InstallHooks();
+
+			installedD3D9Hooks_ = true;
+		}
+	}
+	else if (!installedHooks_)
 	{
 		if (D3D9Hook::HasFoundD3D9Device())
 		{
-			D3D9Hook::RemoveD3D9DeviceCaptureHook();
-			D3D9Hook::InstallHooks();
+			IDirect3DSwapChain9* swapChain = nullptr;
+			if (SUCCEEDED(g_gpd.d3dDevice->GetSwapChain(0, 	&swapChain)))
+			{
+				D3DPRESENT_PARAMETERS presentParameters;
+				if (SUCCEEDED(swapChain->GetPresentParameters(&presentParameters)))
+				{
+					g_gpd.hwnd = presentParameters.hDeviceWindow;
+				}
+			}
+
 			BhdTool::Init();
 			WndProc::InstallHooks();
 
