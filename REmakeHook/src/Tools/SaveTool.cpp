@@ -21,6 +21,11 @@ namespace
 namespace
 {
 
+// Having this variable in static memory somehow fixes the save bug
+// I'm guessing the compiler was too agressive in how it would optimize it but that's still weird
+// Anyway, it's fixed, so yay?
+uint8_t* pVal = nullptr;
+
 using bhd_ExecuteTrigger_t = int(__fastcall*)(void*, void*, int, int, int);
 int __fastcall hk_bhd_ExecuteTrigger(void* obj, void* edx, int param_1, int param_2, int param_3)
 {
@@ -28,14 +33,14 @@ int __fastcall hk_bhd_ExecuteTrigger(void* obj, void* edx, int param_1, int para
 
 	if (openSaveMenu_)
 	{
-		uint8_t* pVal = (uint8_t*)((uintptr_t)param_1 + 0x30);
-		const uint8_t oldVal = *pVal;
+		pVal = (uint8_t*)((uintptr_t)param_1 + 0x30);
+		const volatile uint8_t oldVal = *pVal;
 		*pVal = 6;
 
 		instantTypeWriterMenuPatch_.Apply();
 		const int ret = bhd_ExecuteTrigger(obj, edx, param_1, param_2, param_3);;
 		instantTypeWriterMenuPatch_.Remove();
-		Mem::WriteMemory((size_t)pVal, oldVal);
+		Mem::WriteMemory((size_t)pVal, (void*)&oldVal, sizeof(oldVal));
 		
 		return ret;
 	}
@@ -50,8 +55,8 @@ int __fastcall hk_bhd_0041fd70(void* obj, void* edx, int param_1)
 
 	if (openSaveMenu_)
 	{
-		int uVar6 = 0;
-		int iVar3 = *(int*)(*(int*)((uintptr_t)obj + 0xe0) + uVar6 * 4);
+		volatile int uVar6 = 0;
+		volatile int iVar3 = *(int*)(*(int*)((uintptr_t)obj + 0xe0) + uVar6 * 4);
 
 		bhd_ExecuteTrigger_t bhd_ExecuteTrigger = (bhd_ExecuteTrigger_t)GameAddresses[GAID_EXECUTE_TRIGGER];
 		bhd_ExecuteTrigger(obj, edx, iVar3, uVar6, 0);
