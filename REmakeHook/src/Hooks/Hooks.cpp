@@ -78,7 +78,8 @@ void __fastcall hk_bhd_0x00768480(int param)
 			WndProc::InstallHooks();
 
 			// Game shutdown hook
-			bhd_00859a30_hook.Set((char*)GameAddresses[GAID_GAME_SHUTDOWN], (char*)&hk_bhd_00859a30, 9);
+			const size_t shutdownHookLength = IsSeptember2026Build() ? 10 : 9;
+			bhd_00859a30_hook.Set((char*)GameAddresses[GAID_GAME_SHUTDOWN], (char*)&hk_bhd_00859a30, shutdownHookLength);
 			bhd_00859a30_hook.Apply();
 
 			installedHooks_ = true;

@@ -104,6 +104,14 @@ void __fastcall hk_bhd_0x00767260(void* obj, void* edx, int param_1)
 	func(obj, edx, param_1);
 }
 
+void __fastcall hk_bhd_PreRender2026(void* obj, void* edx)
+{
+	using bhd_PreRender2026 = void(__fastcall*)(void*, void*);
+	bhd_PreRender2026 func = (bhd_PreRender2026)preRenderHook_.GetGateway();
+	updateImGui_ = true;
+	func(obj, edx);
+}
+
 __declspec(naked) void hk_CaptureD3D9Device()
 {
 	__asm
@@ -120,6 +128,22 @@ __declspec(naked) void hk_CaptureD3D9Device()
 	}
 }
 
+__declspec(naked) void hk_CaptureD3D9DeviceSept2026()
+{
+	__asm
+	{
+		mov ecx, [eax]
+		push eax
+		mov eax, pD3D9DeviceVTableAddr_
+		mov dword ptr [eax], ecx
+		pop eax
+
+		push 0x0
+		push eax
+		jmp [captureJmpBackAddr_]
+	}
+}
+
 }
 
 
@@ -127,7 +151,7 @@ void D3D9Hook::InstallD3D9DeviceCaptureHook()
 {
 	captureJmpBackAddr_ = GameAddresses[GAID_CAPTURE_DEVICE_JMP_BACK];
 
-	uint8_t* funcAddr = (uint8_t*)&hk_CaptureD3D9Device;
+	uint8_t* funcAddr = IsSeptember2026Build() ? (uint8_t*)&hk_CaptureD3D9DeviceSept2026 : (uint8_t*)&hk_CaptureD3D9Device;
 	uint8_t* src = (uint8_t*)GameAddresses[GAID_CAPTURE_DEVICE_JMP];
 
 	uint8_t hookRelAdd[4];
@@ -146,7 +170,8 @@ void D3D9Hook::InstallHooks()
 {
 	memcpy(d3d9Device_, (void*)d3d9DeviceVTableAddr_, sizeof(d3d9Device_));
 
-	preRenderHook_.Set((char*)GameAddresses[GAID_PRE_RENDER], (char*)&hk_bhd_0x00767260, 6);
+	char* preRenderHook = IsSeptember2026Build() ? (char*)&hk_bhd_PreRender2026 : (char*)&hk_bhd_0x00767260;
+	preRenderHook_.Set((char*)GameAddresses[GAID_PRE_RENDER], preRenderHook, 6);
 	preRenderHook_.Apply();
 
 	beginSceneHook_.Set((char*)d3d9Device_[41], (char*)&hk_BeginScene, 7);

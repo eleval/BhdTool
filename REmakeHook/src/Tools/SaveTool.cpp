@@ -14,6 +14,8 @@ namespace
 	TrampHook bhd_0041fd70_hook;
 	CodePatch instantTypeWriterMenuPatch_;
 	CodePatch invalidSaveFixPatch_;;
+	TrampHook invalidSaveFixHook_;
+	void* invalidSaveFixGateway_ = nullptr;
 
 	bool openSaveMenu_ = false;
 }
@@ -25,6 +27,20 @@ namespace
 // I'm guessing the compiler was too agressive in how it would optimize it but that's still weird
 // Anyway, it's fixed, so yay?
 uint8_t* pVal = nullptr;
+
+__declspec(naked) void hk_bhd_SaveRoomName2026()
+{
+	__asm
+	{
+		pushfd
+		cmp ecx, 0x0D
+		jne validRoom
+		mov ecx, 1
+	validRoom:
+		popfd
+		jmp [invalidSaveFixGateway_]
+	}
+}
 
 using bhd_ExecuteTrigger_t = int(__fastcall*)(void*, void*, int, int, int);
 int __fastcall hk_bhd_ExecuteTrigger(void* obj, void* edx, int param_1, int param_2, int param_3)
@@ -77,8 +93,15 @@ void SaveTool::Init()
 	// This somehow shows the save menu without corrupting the stack?
 	// Anyway, it works, so GG? xD
 	const size_t instantTypeWriterMenuPatchAddress = GameAddresses[GAID_INSTANT_TYPE_WRITER_MENU];
-	instantTypeWriterMenuPatch_.AddNops(instantTypeWriterMenuPatchAddress, 2);
-	instantTypeWriterMenuPatch_.AddNops(instantTypeWriterMenuPatchAddress + 0x4, 5);
+	if (IsSeptember2026Build())
+	{
+		instantTypeWriterMenuPatch_.AddNops(instantTypeWriterMenuPatchAddress, 9);
+	}
+	else
+	{
+		instantTypeWriterMenuPatch_.AddNops(instantTypeWriterMenuPatchAddress, 2);
+		instantTypeWriterMenuPatch_.AddNops(instantTypeWriterMenuPatchAddress + 0x4, 5);
+	}
 
 	bhd_ExecuteTrigger_hook.Set((char*)GameAddresses[GAID_EXECUTE_TRIGGER], (char*)&hk_bhd_ExecuteTrigger, 6);
 	bhd_ExecuteTrigger_hook.Apply();
@@ -87,8 +110,17 @@ void SaveTool::Init()
 	bhd_0041fd70_hook.Apply();
 
 	// Prevents saves from any rooms from showing as "No Data" (will show as Mansion Dining Room instead)
-	invalidSaveFixPatch_.AddCode(GameAddresses[GAID_INVALID_SAVE_FIX], { 0xB9, 0x1, 0x0, 0x0, 0x0 });
-	invalidSaveFixPatch_.Apply();
+	if (IsSeptember2026Build())
+	{
+		invalidSaveFixHook_.Set((char*)GameAddresses[GAID_INVALID_SAVE_FIX], (char*)&hk_bhd_SaveRoomName2026, 9);
+		invalidSaveFixGateway_ = invalidSaveFixHook_.GetGateway();
+		invalidSaveFixHook_.Apply();
+	}
+	else
+	{
+		invalidSaveFixPatch_.AddCode(GameAddresses[GAID_INVALID_SAVE_FIX], { 0xB9, 0x1, 0x0, 0x0, 0x0 });
+		invalidSaveFixPatch_.Apply();
+	}
 }
 
 void SaveTool::UpdateUI()

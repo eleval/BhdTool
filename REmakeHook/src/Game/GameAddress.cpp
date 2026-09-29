@@ -6,8 +6,20 @@
 
 std::array<size_t, GAID_COUNT> GameAddresses;
 
+namespace
+{
+	GameVersion gameVersion_ = GameVersion::Unknown;
+}
+
+bool IsSeptember2026Build()
+{
+	return gameVersion_ == GameVersion::V_6699874012183562949 || gameVersion_ == GameVersion::V_6699874012183562949_Steamless;
+}
+
 void InitGameAddresses(GameVersion gameVersion)
 {
+	gameVersion_ = gameVersion;
+
 	switch (gameVersion)
 	{
 		case GameVersion::V_3831846201811674141:
@@ -47,6 +59,41 @@ void InitGameAddresses(GameVersion gameVersion)
 			GameAddresses[GAID_CHEAT_INFINITE_HEALTH] = 0x0050f4c2;
 
 			GameAddresses[GAID_INVENTORY] = 0x00d7c9c0;
+		} break;
+		case GameVersion::V_6699874012183562949:
+		case GameVersion::V_6699874012183562949_Steamless:
+		{
+			GameAddresses[GAID_LATE_GAME_UPDATE] = 0x0089151b;
+			GameAddresses[GAID_LATE_GAME_UPDATE_RET] = 0x007bee70;
+
+			GameAddresses[GAID_GAME_SHUTDOWN] = 0x008901a0;
+
+			GameAddresses[GAID_WND_PROC] = 0x00890370;
+			GameAddresses[GAID_UPDATE_KEYBOARD_INPUT] = 0x00786aa0;
+
+			GameAddresses[GAID_CAPTURE_DEVICE_JMP] = 0x007c1857;
+			GameAddresses[GAID_CAPTURE_DEVICE_JMP_BACK] = 0x007c185c;
+			GameAddresses[GAID_PRE_RENDER] = 0x007bc8a0;
+
+			GameAddresses[GAID_CHECK_FOR_TRIGGERS] = 0x0047d6e0;
+			GameAddresses[GAID_FETCH_DOOR_ROOM_DATA] = 0x0047dff0;
+			GameAddresses[GAID_FETCH_DOOR_ROOM_DATA_OFFSET] = GameAddresses[GAID_FETCH_DOOR_ROOM_DATA] + 0xA;
+			GameAddresses[GAID_EXECUTE_TRIGGER] = 0x0046b420;
+			GameAddresses[GAID_0041FD70] = 0x0047fe80;
+
+			GameAddresses[GAID_INSTANT_TYPE_WRITER_MENU] = 0x0046b5f2;
+			GameAddresses[GAID_INVALID_SAVE_FIX] = 0x00490d02;
+
+			GameAddresses[GAID_DOOR_SKIP_ANIM] = 0x0047c8dd;
+			GameAddresses[GAID_DOOR_SKIP_RENDER] = 0x0048b8b8;
+			GameAddresses[GAID_DOOR_SKIP_ANIM_START] = 0x0048b5be;
+			GameAddresses[GAID_DOOR_SKIP_SOUNDS] = 0x0047c8ed;
+			GameAddresses[GAID_DOOR_SKIP_LAB_ELEVATOR_FIX] = 0x00668a9a;
+
+			GameAddresses[GAID_CHEAT_INFINITE_AMMO] = 0x006b6f54;
+			GameAddresses[GAID_CHEAT_INFINITE_HEALTH] = 0x00572242;
+
+			GameAddresses[GAID_INVENTORY] = 0x00cf2f28;
 		} break;
 		default:
 			assert(false);

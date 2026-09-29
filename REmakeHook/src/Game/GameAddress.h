@@ -41,5 +41,6 @@ enum GameAddressID
 };
 
 void InitGameAddresses(GameVersion gameVersion);
+bool IsSeptember2026Build();
 
 extern std::array<size_t, GAID_COUNT> GameAddresses;
